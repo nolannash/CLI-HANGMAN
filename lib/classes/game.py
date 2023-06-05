@@ -1,25 +1,22 @@
-EASY_WORDS = ['Hat','Bed','Cup','Fish','Jump','Milk'
-,'Park','Duck','Sing','Beach','Frog','Baby','Cake'
-,'Moon','Smile','Bear','Boat','Train','Apple','Dance'
-,'Flower','Grass','House','Key','Star','Duck','Mouse'
-,'Chair','Bird','Frog','Kite','Lion','Orange','Pear'
-,'Rabbit','Ship','Snake','Tiger','Water','Elephant']
-
-MEDIUM_WORDS = []
-word_list = {"easy_words":['Hat','Bed','Cup','Fish','Jump','Milk'
-,'Park','Duck','Sing','Beach','Frog','Baby','Cake'
-,'Moon','Smile','Bear','Boat','Train','Apple','Dance'
-,'Flower','Grass','House','Key','Star','Duck','Mouse'
-,'Chair','Bird','Frog','Kite','Lion','Orange','Pear'
-,'Rabbit','Ship','Snake','Tiger','Water','Elephant'],'medium_words':[]}
-#use mappable dictionary with dif = key 
-#subclass of difficulty
-#word has game/difficulty has result has player
 class Game:
-    def __init__(self):
-        ...
+    def __init__(self, difficulty):
+        self.difficulty = difficulty
+        self.letters_entered = set()
+        self.word_to_be_guessed = ""
 
-#instance proporties/attributes
-#instance methods
-#class methods
-#extras/helpers
+    def enter_letter(self):
+        letter_entered = input("Enter letter to guess: ")
+        for letter in self.letters_entered:
+            if letter_entered is not letter:
+                self.letters_entered.add(letter_entered)
+            else: 
+                raise Exception("You already guessed that letter!")
+            
+    def game_status(self):
+        for letter in self.word_to_be_guessed:
+            if letter in self.letters_entered:
+                print ("You have guessed the word!")
+                return True
+            
+        return False
+
