@@ -1,10 +1,10 @@
-class Player:
+from .__init__ import CONN, CURSOR
+class Players:
     def __init__(self,name, username, password):
         self.name = name
         self.username = username
-        self.password = password
-        #keyword or password type thing to set player = username or not
-        #you can enter into your "account" or create new user
+        self.password = int(password)
+
 
 #instance properties/attributes
     @property
@@ -32,20 +32,31 @@ class Player:
         return self._password
     @password.setter
     def password(self,pin):
-        if isinstance(pin,int) and len(pin) ==4:
+        if isinstance(pin,int):
             self._password = pin
-        elif len(pin) !=4 or pin != type(int):
+        elif  pin != int:
             raise Exception('Your Pin Must Be A Sequence Of 4 Numbers')
         else:
             raise AttributeError('Please enter a valid password')
 #instance methods
 
 #class methods
+
+    def create_table():
+        CURSOR.execute('''
+            CREATE TABLE IF NOT EXISTS players(
+                id INTEGET PRIMARY KEY AUTOINCREMENTING,
+                name TEXT NOT NULL,
+                password INTEGER
+            )        
+            ''')
+            
     @classmethod
-    def create_table(cls):
-        ...
-        
-# player:
-#     id:1
-#     name: nolan
-#     results: [[easy games:[score:word][score:word]][med_games][hard_games]]
+    def create (cls,name,username,password):
+        player = Players(name,username,password)
+        CURSOR.execute(f'''
+            INSERT INTO players (name, username, password)
+            VALUES('{player.name}','{player.username}','{player.password}')
+            ''')
+        new_player_id = CURSOR.execute("SELECT last_insert_rowid() FROM players").fetchone()[0]
+        CONN.commit()
