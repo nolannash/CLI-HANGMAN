@@ -1,4 +1,3 @@
-
 class Game:
     def __init__(self, difficulty):
         self.difficulty = difficulty
@@ -20,3 +19,4 @@ class Game:
                 return True
             
         return False
+
