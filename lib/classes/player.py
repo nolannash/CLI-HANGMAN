@@ -1,6 +1,8 @@
 class Player:
-    def __init__(self,name):
+    def __init__(self,name, username):
         self.name = name
+        #keyword or password type thing to set player = username or not
+        #you can enter into your "account" or create new user
 
 #instance properties/attributes
     @property
@@ -23,4 +25,4 @@ class Player:
 # player:
 #     id:1
 #     name: nolan
-#     results: [[easy games][med_games][hard_games]]
+#     results: [[easy games:[score:word][score:word]][med_games][hard_games]]
