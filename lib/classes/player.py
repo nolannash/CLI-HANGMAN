@@ -19,3 +19,8 @@ class Player:
     @classmethod
     def create_table(cls):
         ...
+        
+# player:
+#     id:1
+#     name: nolan
+#     results: [[easy games][med_games][hard_games]]
