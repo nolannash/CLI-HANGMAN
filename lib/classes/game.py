@@ -1,4 +1,5 @@
 import random
+from .__init__ import CONN, CURSOR
 class Game:
     EASY_WORDS = ['Hat','Bed','Cup','Fish','Jump','Milk'
 ,'Park','Duck','Sing','Beach','Frog','Baby','Cake'
@@ -20,19 +21,20 @@ class Game:
 ]
 
     HARD_WORDS =['Extraterrestrial'
-,'Metamorphosis','Cryptocurrency','Serendipity'
-,'Chrysanthemum','Nostalgia','Paradox','Phenomenon'
-,'Ambiguous','Hieroglyphics','Synesthesia','Cacophony'
-,'Epiphany','Xylophone','Quixotic','Onomatopoeia'
-,'Kaleidoscope','Schadenfreude','Phantasmagoria','Esoteric'
-,'Serendipity','Ubiquitous','Zealous','Capricious','Euphoria'
-,'Aberration','Mellifluous','Labyrinth','Serendipity'
-,'Pseudonym','Discombobulate','Mellifluous','Exacerbate'
+,'Metamorphosis','Cryptocurrency','Chrysanthemum','Nostalgia'
+,'Paradox','Phenomenon','Ambiguous','Hieroglyphics'
+,'Synesthesia','Cacophony','Epiphany','Xylophone',
+'Quixotic','Onomatopoeia','Kaleidoscope','Schadenfreude'
+,'Phantasmagoria','Esoteric','Ubiquitous','Zealous'
+,'Capricious','Euphoria','Aberration','Mellifluous'
+,'Labyrinth','Serendipity','Pseudonym','Discombobulate'
+,'Mellifluous','Exacerbate'
 ,'Vexatious','Serendipity','Ineffable','Serendipity'
 ,'Perseverance','Unfathomable','Phantasmagoric','Serendipity'
 ,'Perspicacious','Conundrum','Serendipity','Mellifluous'
 ,'Inscrutable','Esoteric','Schadenfreude'
 ]
+    
     def __init__(self, difficulty=None):
         self.difficulty = difficulty
         self.letters_entered = set()

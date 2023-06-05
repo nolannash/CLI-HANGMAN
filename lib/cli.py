@@ -1,10 +1,11 @@
 from classes.game import Game
-from classes.player import Player
+from classes.player import Players
 from classes.result import Result
+from __init__ import CONN, CURSOR
+
 import sys
 import os
-# # import colorama
-# from colorama import Fore
+
 
 
 def main():
@@ -42,22 +43,32 @@ def main():
             clear_terminal()
             prRed('To Go Back To Start Menu Please Type "back".')
             username_input = input('Please Enter Your Username:')
-            player_choice = 0
+            if isinstance(username_input,Players) and Players.username == username_input:
+                new_game_menu()
+            elif username_input == "back" or "Back" :
+                player_choice = 0
+            else:
+                prRed('Please Enter A Valid Username!')
+
+#if player has not played before
         elif player_choice == 2:
-            name = input('''To Begin Please Enter Your Name''')
-            userName = input('''Next Enter a UserName''')
-            password = input('''Please Choose a PIN (PIN must be 4 numbers)''')
-            Player.create(name,userName,password)
+            clear_terminal()
+            name = input('''To Begin Please Enter Your Name: ''')
+            userName = input('''Next Enter a UserName: ''')
+            password = input('''Please Enter A 4 Digit PIN: ''')
+            Players.create(name,userName,password)
 
 
         elif player_choice == 3:
+            clear_terminal()
             print('''AVAILABLE HELP
                 ''')
         elif player_choice ==4:
+            clear_terminal()
             sys.exit()
             
-def new_game_menu():
-    ...
+        def new_game_menu():
+            print('hi')
 
 
 if __name__ == "__main__":
