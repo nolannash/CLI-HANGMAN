@@ -1,6 +1,6 @@
 import random
-# from player.py import Player
-from .__init__.py import CONN,CURSOR
+from .player import Player
+from .__init__ import CONN,CURSOR
 class Game:
     EASY_WORDS = ['Hat','Bed','Cup','Fish','Jump','Milk'
 ,'Park','Duck','Sing','Beach','Frog','Baby','Cake'
@@ -38,49 +38,58 @@ class Game:
     
     VALID_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
     
-    def __init__(self,game_player, difficulty):
+    def __init__(self,player, difficulty,word=''):
         self.difficulty = difficulty
         self.letters_entered = set()
-        self.word 
-        self.player = game_player
+
+        self.player = player
+        self.set_word(word)
         self.turns = 10
         self.score = 0
 
 #properties and attributes
-    @property
-    def word(self):
-        setattr(self,'_word','')
+    def get_word(self):
         return self._word
     
-    @word.setter
-    def word(self):
-        if self.difficulty == "Easy":
+    
+    def set_word(self,difficulty):
+        difficulty = self.difficulty
+        if difficulty == "Easy":
             self._word = random.choice(Game.EASY_WORDS)
 
-        elif self.difficulty == "Medium":
+        elif difficulty == "Medium":
             self._word = random.choice(Game.MEDIUM_WORDS)
 
         else:
             self._word = random.choice(Game.HARD_WORDS)
-        return self._word
+
 
 #instance methods
-    def play_hangman(self):
-        missed = 0
-        guessmade = ''
 
-        while len(self._word) >0:
+    def game_over(self):
+        print('im 100% working')
+
+        return self.turns ==0 or self.letters_entered == set(list(self.get_word()))
+
+    def play_hangman(self):
+        # sourcery skip: hoist-statement-from-loop, use-fstring-for-concatenation
+        #show how many tries left(?)
+        guessmade = ''
+        word = self._word
+        turns = self.turns
+        
+        while turns >0 :
             main = ""
             
-            for letter in self._word:
-                main = main + letter if letter in guessmade else f"{main}_ "
-                
-            if main == self._word:
-                print(main)
-                print("You win!")
+            for letter in word:
+                if letter in guessmade:
+                    main = main + letter
+            main = main + "_" + " "
+        if main == word:
+            print(main)
+            print("You win!")
 
-
-            print("Guess the word:" , main)
+        print("Guess the word:" , main)
         guess = input()
 
         if guess in type(self).VALID_LETTERS:
@@ -89,8 +98,8 @@ class Game:
             print("Enter a valid character")
             guess = input()
 
-        if guess not in self._word:
-            turns = turns - 1
+        if guess not in word:
+            turns -=1
             if turns == 0:
                 self.hm_extract(
                 "You loose", 
@@ -174,6 +183,7 @@ class Game:
             elif turns == 9:
                 print("9 turns left")
                 print("  --------  ")
+
     #connected to play hangman --> meant to reduce redundant typing
     def hm_extract(self, arg0, arg1, arg2):
         print(arg0)
@@ -187,6 +197,7 @@ class Game:
             self.score + 15
         else:
             self.score + 25
+
 
 #classmethods
     @classmethod
@@ -206,6 +217,8 @@ class Game:
         CURSOR.execute("""
             DROP TABLE IF EXISTS games;
             """)
+
+
 
 
     # def game_status(self):

@@ -1,6 +1,7 @@
-# from classes.player import Player
+from classes.player import Player
 from classes.game import Game
 from classes.result import Result
+from classes.__init__ import CURSOR, CONN
 
 # from faker import Faker
 # faker = Faker()
@@ -10,5 +11,5 @@ from classes.result import Result
 #     Players.create(faker.name,faker.username,faker.password)
 
 g1 = Game('Matteo',"Easy")
-g1.play_hangman()
+# g1.play_hangman()
 print('done')

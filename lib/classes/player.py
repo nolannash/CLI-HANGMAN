@@ -1,4 +1,4 @@
-from .__init__.py import CONN, CURSOR
+from .__init__ import CONN, CURSOR
 class Player:
     def __init__(self,name, username, password):
         self.name = name
