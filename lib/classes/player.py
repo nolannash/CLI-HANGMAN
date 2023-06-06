@@ -1,3 +1,4 @@
+
 from classes.__init__ import CONN, CURSOR
 
 class Player:
@@ -93,3 +94,4 @@ class Player:
             )
             row = CURSOR.fetchone()
             return cls(row[1], row[2], row[0]) if row else None
+
