@@ -1,5 +1,6 @@
 import random
-from .__init__ import CONN, CURSOR
+from .player import Player
+from .__init__ import CONN,CURSOR
 class Game:
     EASY_WORDS = ['Hat','Bed','Cup','Fish','Jump','Milk'
 ,'Park','Duck','Sing','Beach','Frog','Baby','Cake'
@@ -35,35 +36,207 @@ class Game:
 ,'Inscrutable','Esoteric','Schadenfreude'
 ]
     
-    def __init__(self, difficulty=None):
+    VALID_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
+    
+    def __init__(self,player, difficulty,word=''):
         self.difficulty = difficulty
         self.letters_entered = set()
-        self.word_to_be_guessed = ""
 
-    @property
-    def word(self):
+        self.player = player
+        self.set_word(word)
+        self.turns = 10
+        self.score = 0
+
+#properties and attributes
+    def get_word(self):
         return self._word
-    @word.setter
-    def word(self):
-        if self.difficulty == "Easy":
+    
+    
+    def set_word(self,difficulty):
+        difficulty = self.difficulty
+        if difficulty == "Easy":
             self._word = random.choice(Game.EASY_WORDS)
-        elif self.difficulty == "Medium":
+
+        elif difficulty == "Medium":
             self._word = random.choice(Game.MEDIUM_WORDS)
+
         else:
             self._word = random.choice(Game.HARD_WORDS)
-    def enter_letter(self):
-        letter_entered = input("Enter letter to guess: ")
-        for letter in self.letters_entered:
-            if letter_entered is not letter:
-                self.letters_entered.add(letter_entered)
-            else: 
-                raise Exception("You already guessed that letter!")
+
+
+#instance methods
+
+    def game_over(self):
+        print('im 100% working')
+
+        return self.turns ==0 or self.letters_entered == set(list(self.get_word()))
+
+    def play_hangman(self):
+        # sourcery skip: hoist-statement-from-loop, use-fstring-for-concatenation
+        #show how many tries left(?)
+        guessmade = ''
+        word = self._word
+        turns = self.turns
+        
+        while turns >0 :
+            main = ""
             
-    def game_status(self):
-        for letter in self.word_to_be_guessed:
-            if letter in self.letters_entered:
-                print ("You have guessed the word!")
-                return True
-            
-        return False
+            for letter in word:
+                if letter in guessmade:
+                    main = main + letter
+            main = main + "_" + " "
+        if main == word:
+            print(main)
+            print("You win!")
+
+        print("Guess the word:" , main)
+        guess = input()
+
+        if guess in type(self).VALID_LETTERS:
+            guessmade += guess
+        else:
+            print("Enter a valid character")
+            guess = input()
+
+        if guess not in word:
+            turns -=1
+            if turns == 0:
+                self.hm_extract(
+                "You loose", 
+                "You let a kind man die",
+                "  --------  "
+                )
+                print("     O_|    ")
+                print("    /|\      ")
+                print("    / \     ")
+
+            elif turns == 1:
+                self.hm_extract(
+                "1 turns left",
+                "Last breaths counting, Take care!",
+                "  --------  ",
+                )
+                print("   \ O_|/   ")
+                print("     |      ")
+                print("    / \     ")
+
+            elif turns == 2:
+                self.hm_extract(
+                "2 turns left", 
+                "  --------  ", 
+                "   \ O /|   "
+                )
+                print("     |      ")
+                print("    / \     ")
+
+            elif turns == 3:
+                self.hm_extract(
+                "3 turns left", 
+                "  --------  ",
+                "   \ O /    "
+                )
+                print("     |      ")
+                print("    / \     ")
+
+            elif turns == 4:
+                self.hm_extract(
+                "4 turns left", 
+                "  --------  ",
+                "   \ O      "
+                )
+                print("     |      ")
+                print("    / \     ")
+
+            elif turns == 5:
+                self.hm_extract(
+                "5 turns left",
+                "  --------  ",
+                "     O      "
+                )
+                print("     |      ")
+                print("    / \     ")
+
+            elif turns == 6:
+                self.hm_extract(
+                "6 turns left", 
+                "  --------  ", 
+                "     O      "
+                )
+                print("     |      ")
+                print("    /       ")
+
+            elif turns == 7:
+                self.hm_extract(
+                "7 turns left", 
+                "  --------  ", 
+                "     O      "
+                )
+                print("     |      ")
+
+            elif turns == 8:
+                self.hm_extract(
+                "8 turns left",
+                "  --------  ",
+                "     O      "
+                )
+
+            elif turns == 9:
+                print("9 turns left")
+                print("  --------  ")
+
+    #connected to play hangman --> meant to reduce redundant typing
+    def hm_extract(self, arg0, arg1, arg2):
+        print(arg0)
+        print(arg1)
+        print(arg2)
+
+    def calculate_score(self):
+        if self.difficulty == "Easy":
+            self.score + 10
+        elif self.difficulty == "Medium":
+            self.score + 15
+        else:
+            self.score + 25
+
+
+#classmethods
+    @classmethod
+    def create_table(cls):
+        CURSOR.execute('''
+            CREATE TABLE IF NOT EXISTS games(
+                id INTEGET PRIMARY KEY,
+                player_id,
+                result INTEGER,
+                FORIEGN KEY (player_id) REFERENCES players(id)
+            );        
+        ''')
+        CONN.commit()
+        
+    @classmethod
+    def drop_table(cls):
+        CURSOR.execute("""
+            DROP TABLE IF EXISTS games;
+            """)
+
+
+
+
+    # def game_status(self):
+    #     for letter in self.word_to_be_guessed:
+    #         if letter in self.letters_entered:
+    #             print ("You have guessed the word!")
+    #             return True
+
+        # return False
+        
+    
+    # def enter_letter(self):
+    #     letter_entered = input("Enter letter to guess: ")
+    #     for letter in self.letters_entered:
+    #         if letter_entered is not letter:
+    #             self.letters_entered.add(letter_entered)
+    #         else: 
+    #             raise Exception("You already guessed that letter!")
+    
+    
 

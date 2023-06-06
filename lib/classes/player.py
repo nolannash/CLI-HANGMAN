@@ -1,5 +1,5 @@
 from .__init__ import CONN, CURSOR
-class Players:
+class Player:
     def __init__(self,name, username, password):
         self.name = name
         self.username = username
@@ -41,19 +41,26 @@ class Players:
 #instance methods
 
 #class methods
-
-    def create_table():
+    @classmethod
+    def create_table(cls):
         CURSOR.execute('''
             CREATE TABLE IF NOT EXISTS players(
-                id INTEGET PRIMARY KEY AUTOINCREMENTING,
+                id INTEGET PRIMARY KEY,
                 name TEXT NOT NULL,
                 password INTEGER
-            )        
-            ''')
-            
+            );        
+        ''')
+        CONN.commit()
+
+    @classmethod
+    def drop_table(cls):
+        CURSOR.execute("""
+            DROP TABLE IF EXISTS players;
+            """)
+
     @classmethod
     def create (cls,name,username,password):
-        player = Players(name,username,password)
+        player = Player(name,username,password)
         CURSOR.execute(f'''
             INSERT INTO players (name, username, password)
             VALUES('{player.name}','{player.username}','{player.password}')
