@@ -15,8 +15,7 @@ def main():
             quit_game()
             break
         else:
-          print('Please enter a valid option.')
-
+            print('Please enter a valid option.')
 
 if __name__ == "__main__":
     main()

@@ -38,15 +38,32 @@ def start_menu():
 def login_menu():
     clear_terminal()
     prRed('To Go Back To Start Menu Please Type "back".')
+    username_input = input('Please Enter Your Username:')
+    if isinstance(username_input,Player) and Player.username == username_input:
+        new_game_menu()
+    else:
+        player_choice = 0
     
 
 def new_player_menu():
-    ...
+    clear_terminal()
+    name = input('''To Begin Please Enter Your Name: ''')
+    userName = input('''Next Enter a UserName: ''')
+    password = input('''Please Enter A 4 Digit PIN: ''')
+    Player.create(name,userName,password)
+
 
 def help_menu():
-    ...
+    clear_terminal()
+    print('''AVAILABLE HELP:''')
+    #methods go here
 
 def quit_game():
     clear_terminal()
     sys.exit()
 
+def new_game_menu():
+    ...
+from classes.game import Game
+from classes.player import Player
+from classes.result import Result
