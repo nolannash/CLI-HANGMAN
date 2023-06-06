@@ -35,7 +35,8 @@ class Game:
 ,'Inscrutable','Esoteric','Schadenfreude'
 ]
     
-    def __init__(self, difficulty=None):
+    def __init__(self, player, difficulty=None, ):
+        self.player = player
         self.difficulty = difficulty
         self.letters_entered = set()
         self.word_to_be_guessed = ""
@@ -43,6 +44,7 @@ class Game:
     @property
     def word(self):
         return self._word
+    
     @word.setter
     def word(self):
         if self.difficulty == "Easy":
@@ -67,3 +69,12 @@ class Game:
             
         return False
 
+    @classmethod #create_table -> need to determine columns
+    def create_table(cls):
+        CURSOR.execute("""
+            CREATE TABLE IF NOT EXISTS games(
+                id INTEGER PRIMARY KEY AUTOINCREMENTING,
+                name TEXT NOT NULL,
+                password INTEGER
+            );        
+        """)

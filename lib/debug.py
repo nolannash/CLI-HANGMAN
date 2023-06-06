@@ -1,11 +1,17 @@
-from classes.player import Players
+from classes.player import Player
 from classes.game import Game
 from classes.result import Result
 
 # from faker import Faker
 # faker = Faker()
 
-Players.create_table()
-# for _ in range(0,5):
-#     Players.create(faker.name,faker.username,faker.password)
+Player.drop_table()
+Player.create_table()
 
+#create sample players (name, username, password)
+player1 = Player.create("Nolan", "nln99", 4567)
+player2 = Player.create("Kevin", "kvn11", 1234)
+player3 = Player.create("Bob", "bob11", 8900)
+player4 = Player.create("Jane", "jne99", 8888)
+
+print("sample data table created")

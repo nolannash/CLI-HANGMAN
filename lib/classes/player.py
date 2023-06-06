@@ -1,5 +1,7 @@
-from .__init__ import CONN, CURSOR
-class Players:
+from classes.__init__ import CONN, CURSOR
+
+class Player:
+
     def __init__(self,name, username, password):
         self.name = name
         self.username = username
@@ -39,24 +41,55 @@ class Players:
         else:
             raise AttributeError('Please enter a valid password')
 #instance methods
+    #save()
+    def save(self):
+        CURSOR.execute(
+            """
+            INSERT INTO players(name, username, password)
+            VALUES (?, ?, ?)
+        """,
+            (self.name, self.username, self.password),
+        )
+        CONN.commit()
+        self.id = CURSOR.lastrowid
 
 #class methods
-
-    def create_table():
-        CURSOR.execute('''
-            CREATE TABLE IF NOT EXISTS players(
-                id INTEGET PRIMARY KEY AUTOINCREMENTING,
-                name TEXT NOT NULL,
-                password INTEGER
-            )        
-            ''')
-            
     @classmethod
-    def create (cls,name,username,password):
-        player = Players(name,username,password)
-        CURSOR.execute(f'''
-            INSERT INTO players (name, username, password)
-            VALUES('{player.name}','{player.username}','{player.password}')
-            ''')
-        new_player_id = CURSOR.execute("SELECT last_insert_rowid() FROM players").fetchone()[0]
+    def create_table(cls):
+        CURSOR.execute(
+            """
+            CREATE TABLE IF NOT EXISTS players (
+                id INTEGER PRIMARY KEY,
+                name TEXT,
+                username TEXT,
+                password INTEGER
+            );        
+        """
+        )
         CONN.commit()
+         
+    @classmethod
+    def create(cls,name,username,password):
+        new_player = Player(name,username,password)
+        new_player.save()
+        return new_player
+
+    
+    @classmethod #drop_table
+    def drop_table(cls):
+        CURSOR.execute("""
+            DROP TABLE IF EXISTS players;
+        """
+        )
+        CONN.commit()
+
+    @classmethod #find_by_id
+    def find_by_id(cls, id):
+        if isinstance(id, int) and id > 0:
+            CURSOR.execute("""
+            SELECT * FROM players
+            WHERE id is ?;
+            """, (id,),
+            )
+            row = CURSOR.fetchone()
+            return cls(row[1], row[2], row[0]) if row else None

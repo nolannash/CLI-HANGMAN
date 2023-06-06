@@ -1,7 +1,7 @@
 from classes.game import Game
-from classes.player import Players
+from classes.player import Player
 from classes.result import Result
-from __init__ import CONN, CURSOR
+from classes.__init__ import CONN, CURSOR
 
 import sys
 import os
@@ -43,7 +43,7 @@ def main():
             clear_terminal()
             prRed('To Go Back To Start Menu Please Type "back".')
             username_input = input('Please Enter Your Username:')
-            if isinstance(username_input,Players) and Players.username == username_input:
+            if isinstance(username_input,Player) and Player.username == username_input:
                 new_game_menu()
             elif username_input == "back" or "Back" :
                 player_choice = 0
@@ -54,9 +54,9 @@ def main():
         elif player_choice == 2:
             clear_terminal()
             name = input('''To Begin Please Enter Your Name: ''')
-            userName = input('''Next Enter a UserName: ''')
+            username = input('''Next Enter a UserName: ''')
             password = input('''Please Enter A 4 Digit PIN: ''')
-            Players.create(name,userName,password)
+            Player.create(name,username,password)
 
 
         elif player_choice == 3:
