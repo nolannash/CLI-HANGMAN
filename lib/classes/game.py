@@ -35,10 +35,10 @@ class Game:
 ,'Perspicacious','Conundrum','Serendipity','Mellifluous'
 ,'Inscrutable','Esoteric','Schadenfreude'
 ]
-    
-    VALID_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
+   VALID_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
     
     def __init__(self,player, difficulty,word=''):
+
         self.difficulty = difficulty
         self.letters_entered = set()
 
@@ -50,8 +50,7 @@ class Game:
 #properties and attributes
     def get_word(self):
         return self._word
-    
-    
+   
     def set_word(self,difficulty):
         difficulty = self.difficulty
         if difficulty == "Easy":
@@ -62,7 +61,8 @@ class Game:
 
         else:
             self._word = random.choice(Game.HARD_WORDS)
-
+    
+     word = property(get_word,set_word)
 
 #instance methods
 
@@ -198,7 +198,6 @@ class Game:
         else:
             self.score + 25
 
-
 #classmethods
     @classmethod
     def create_table(cls):
@@ -217,26 +216,13 @@ class Game:
         CURSOR.execute("""
             DROP TABLE IF EXISTS games;
             """)
-
-
-
-
-    # def game_status(self):
-    #     for letter in self.word_to_be_guessed:
-    #         if letter in self.letters_entered:
-    #             print ("You have guessed the word!")
-    #             return True
-
-        # return False
-        
-    
-    # def enter_letter(self):
-    #     letter_entered = input("Enter letter to guess: ")
-    #     for letter in self.letters_entered:
-    #         if letter_entered is not letter:
-    #             self.letters_entered.add(letter_entered)
-    #         else: 
-    #             raise Exception("You already guessed that letter!")
-    
-    
-
+   
+    @classmethod #create_table -> need to determine columns
+    def create_table(cls):
+        CURSOR.execute("""
+            CREATE TABLE IF NOT EXISTS games(
+                id INTEGER PRIMARY KEY AUTOINCREMENTING,
+                name TEXT NOT NULL,
+                password INTEGER
+            );        
+        """)

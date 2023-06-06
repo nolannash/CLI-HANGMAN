@@ -16,7 +16,6 @@ def main():
             break
         else:
             print('Please enter a valid option.')
-            
 
 if __name__ == "__main__":
     main()

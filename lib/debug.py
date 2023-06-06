@@ -6,10 +6,14 @@ from classes.__init__ import CURSOR, CONN
 # from faker import Faker
 # faker = Faker()
 
-# Player.create_table()
-# for _ in range(0,5):
-#     Players.create(faker.name,faker.username,faker.password)
 
-g1 = Game('Matteo',"Easy")
-# g1.play_hangman()
-print('done')
+Player.drop_table()
+Player.create_table()
+
+#create sample players (name, username, password)
+player1 = Player.create("Nolan", "nln99", 4567)
+player2 = Player.create("Kevin", "kvn11", 1234)
+player3 = Player.create("Bob", "bob11", 8900)
+player4 = Player.create("Jane", "jne99", 8888)
+
+print("sample data table created")
