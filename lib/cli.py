@@ -1,5 +1,5 @@
 from classes.game import Game
-from classes.player import Players
+from classes.player import Player
 from classes.result import Result
 from __init__ import CONN, CURSOR
 
@@ -38,12 +38,13 @@ def main():
         print('4) Quit.')
         player_choice = int(input())
 
+
 #if the player has played before
         if player_choice == 1:
             clear_terminal()
             prRed('To Go Back To Start Menu Please Type "back".')
             username_input = input('Please Enter Your Username:')
-            if isinstance(username_input,Players) and Players.username == username_input:
+            if isinstance(username_input,Player) and Player.username == username_input:
                 new_game_menu()
             elif username_input == "back" or "Back" :
                 player_choice = 0
@@ -56,17 +57,20 @@ def main():
             name = input('''To Begin Please Enter Your Name: ''')
             userName = input('''Next Enter a UserName: ''')
             password = input('''Please Enter A 4 Digit PIN: ''')
-            Players.create(name,userName,password)
+            Player.create(name,userName,password)
 
-
+#if player selects help menu
         elif player_choice == 3:
             clear_terminal()
             print('''AVAILABLE HELP
                 ''')
+
+#if player selects quit
         elif player_choice ==4:
             clear_terminal()
             sys.exit()
-            
+
+#after going through start menu 
         def new_game_menu():
             print('hi')
 
