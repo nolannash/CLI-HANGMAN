@@ -35,22 +35,21 @@ class Game:
 ,'Perspicacious','Conundrum','Serendipity','Mellifluous'
 ,'Inscrutable','Esoteric','Schadenfreude'
 ]
-   VALID_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
+    VALID_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
     
-    def __init__(self,player, difficulty,word=''):
+    def __init__(self,player, difficulty,word='Easy'):
 
         self.difficulty = difficulty
         self.letters_entered = set()
-
         self.player = player
-        self.set_word(word)
+        self.set_word(self)
         self.turns = 10
         self.score = 0
 
 #properties and attributes
     def get_word(self):
         return self._word
-   
+
     def set_word(self,difficulty):
         difficulty = self.difficulty
         if difficulty == "Easy":
@@ -62,23 +61,21 @@ class Game:
         else:
             self._word = random.choice(Game.HARD_WORDS)
     
-     word = property(get_word,set_word)
+    word = property(get_word,set_word)
 
 #instance methods
 
     def game_over(self):
         print('im 100% working')
-
-        return self.turns ==0 or self.letters_entered == set(list(self.get_word()))
+        return self.turns ==0 or self.letters_entered == set(list(self.word))
 
     def play_hangman(self):
         # sourcery skip: hoist-statement-from-loop, use-fstring-for-concatenation
-        #show how many tries left(?)
-        guessmade = ''
+        guessmade = self.letters_entered
         word = self._word
         turns = self.turns
         
-        while turns >0 :
+        while self.turns > 0 :
             main = ""
             
             for letter in word:
@@ -93,7 +90,7 @@ class Game:
         guess = input()
 
         if guess in type(self).VALID_LETTERS:
-            guessmade += guess
+            guessmade.add(guess)
         else:
             print("Enter a valid character")
             guess = input()

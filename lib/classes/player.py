@@ -68,7 +68,7 @@ class Player:
         """
         )
         CONN.commit()
-         
+
     @classmethod
     def create(cls,name,username,password):
         new_player = Player(name,username,password)

@@ -50,7 +50,8 @@ def new_player_menu():
     name = input('''To Begin Please Enter Your Name: ''')
     userName = input('''Next Enter a UserName: ''')
     password = input('''Please Enter A 4 Digit PIN: ''')
-    Player.create(name,userName,password)
+    new_player = Player.create(name,userName,password)
+    new_game_menu(new_player)
 
 
 def help_menu():
@@ -62,8 +63,10 @@ def quit_game():
     clear_terminal()
     sys.exit()
 
-def new_game_menu():
+def new_game_menu(player_instance):
     ...
+    
+    
 from classes.game import Game
 from classes.player import Player
 from classes.result import Result

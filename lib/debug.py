@@ -16,4 +16,6 @@ player2 = Player.create("Kevin", "kvn11", 1234)
 player3 = Player.create("Bob", "bob11", 8900)
 player4 = Player.create("Jane", "jne99", 8888)
 
+game1 = Game('Nolan','Easy')
+game1.play_hangman()
 print("sample data table created")
