@@ -4,53 +4,72 @@ import os
 #text colors and helper functions
         #red
 def prRed(skk):   # sourcery skip: use-fstring-for-formatting
-    print("\033[91m {}\033[00m" .format(skk))
+    print("\033[91m{}\033[00m".format(skk))
 
 
-        #green
+    #green
 def prGreen(skk): # sourcery skip: use-fstring-for-formatting
-    print("\033[92m {}\033[00m" .format(skk))
+    print("\033[92m{}\033[00m".format(skk))
 
 
         #yellow
 def prYellow(skk):   # sourcery skip: use-fstring-for-formatting
-    print("\033[93m {}\033[00m" .format(skk))
+    print("\033[93m{}\033[00m".format(skk))
 
 
         #pink
 def prPink(skk):   # sourcery skip: use-fstring-for-formatting
-    print('\033[95m {}\033[00m]' .format(skk))
+    print('\033[95m{}\033[00m'.format(skk))
+
+def prCyan(skk): # sourcery skip: use-fstring-for-formatting
+    print("\033[96m{}\033[00m".format(skk))
+
+def prLightPurple(skk): 
+    print("\033[94m{}\033[00m".format(skk))
 
 
 def clear_terminal():
     os.system('clear')
-    
+
 def welcome_message():
-    prRed('''Hello and Welcome To HangMan\n''')
-    
+    prPink('Hello and Welcome to: Python Hangman!')
+
 def start_menu():
-    print('Please Select an Option:\n')
-    print('1) Login')
-    print('2) New Player')
-    print('3) Help')
-    print('4) Quit.')
+    clear_terminal()
+    welcome_message()
+
+    prGreen('\n1) Login')
+    prCyan('2) New Player')
+    prYellow('3) Help')
+    prRed('4) Quit')
 
 def login_menu():
-    clear_terminal()
-    prRed('To Go Back To Start Menu Please Type "back".')
+    # clear_terminal()
+
     username_input = input('Please Enter Your Username:')
-    if isinstance(username_input,Player) and Player.username == username_input:
-        new_game_menu()
+    if isinstance(username_input, Player) and username_input.username == Player.username:
+        returning_player = Player.find_by_id(Player.id)
+        new_game_menu(returning_player)
     else:
-        player_choice = 0
-    
+        choice = 0
+
 
 def new_player_menu():
     clear_terminal()
+    
+    prGreen('Excellent Please Follow The Direcetions To Create Your Account:')
+    
     name = input('''To Begin Please Enter Your Name: ''')
+    prGreen(f'Thank you! {name}')
+    
     userName = input('''Next Enter a UserName: ''')
+    prGreen(f'Excellent {userName} last step!')
+    
     password = input('''Please Enter A 4 Digit PIN: ''')
+    
     new_player = Player.create(name,userName,password)
+    
+    new_player.save()
     new_game_menu(new_player)
 
 
@@ -64,8 +83,11 @@ def quit_game():
     sys.exit()
 
 def new_game_menu(player_instance):
-    ...
-    
+    clear_terminal()
+    prRed('Welcome it is time to begin playing!')
+    difficulty = input('First please select a difficulty: \n"Easy" \n"Medium" \n"Hard"\n')
+    new_game = Game(player_instance,difficulty)
+    new_game.play_hangman()
     
 from classes.game import Game
 from classes.player import Player

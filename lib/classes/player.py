@@ -7,6 +7,7 @@ class Player:
         self.name = name
         self.username = username
         self.password = int(password)
+        self.id = None
 
 
 #instance properties/attributes
@@ -33,15 +34,15 @@ class Player:
     @property
     def password(self):
         return self._password
+    
     @password.setter
     def password(self,pin):
         if isinstance(pin,int):
             self._password = pin
-        elif  pin != int:
-            raise Exception('Your Pin Must Be A Sequence Of 4 Numbers')
         else:
             raise AttributeError('Please enter a valid password')
 #instance methods
+
     #save()
     def save(self):
         CURSOR.execute(
@@ -89,7 +90,7 @@ class Player:
         if isinstance(id, int) and id > 0:
             CURSOR.execute("""
             SELECT * FROM players
-            WHERE id is ?;
+            WHERE id =?;
             """, (id,),
             )
             row = CURSOR.fetchone()
