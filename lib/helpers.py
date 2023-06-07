@@ -46,7 +46,7 @@ def start_menu():
 def login_menu():
     clear_terminal()
     username_input = input('Please Enter Your Username:')
-    if isinstance(username_input, Player) and username_input.username == Player.username:
+    username_input.username == Player.username:
         returning_player = Player.find_by_id(Player.id)
         new_game_menu(returning_player)
     else:
