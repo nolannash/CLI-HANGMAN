@@ -1,8 +1,7 @@
 import sys
 import os
 
-#text colors and helper functions
-        #red
+####!text colors
 def prRed(skk):   # sourcery skip: use-fstring-for-formatting
     print("\033[91m{}\033[00m".format(skk))
 
@@ -20,20 +19,23 @@ def prYellow(skk):   # sourcery skip: use-fstring-for-formatting
         #pink
 def prPink(skk):   # sourcery skip: use-fstring-for-formatting
     print('\033[95m{}\033[00m'.format(skk))
-
 def prCyan(skk): # sourcery skip: use-fstring-for-formatting
     print("\033[96m{}\033[00m".format(skk))
-
 def prLightPurple(skk):   # sourcery skip: use-fstring-for-formatting
     print("\033[94m{}\033[00m".format(skk))
 
 
+####!helper functions
+
+#clear out terminal
 def clear_terminal():
     os.system('clear')
 
+#welcome message on start
 def welcome_message():
     prPink('Hello and Welcome to: Python Hangman!')
 
+#first menu allows player to bein doing stuff
 def start_menu():
     clear_terminal()
     welcome_message()
@@ -42,6 +44,7 @@ def start_menu():
     prYellow('3) Help')
     prRed('4) Quit')
 
+#if the player has played before 
 def login_menu():
     clear_terminal()
     username_input = input('Please Enter Your Username:')
@@ -51,7 +54,7 @@ def login_menu():
     else:
         choice = 0
 
-
+#if the player hasnt played before
 def new_player_menu():
     clear_terminal()
     
@@ -70,7 +73,7 @@ def new_player_menu():
     # new_player.save()
     new_game_menu(new_player)
 
-
+#if the player needs help
 def help_menu():
     clear_terminal()
     print('''AVAILABLE HELP:''')
@@ -87,7 +90,8 @@ def forgot_username():
     player_name = input('Lets find your profile!')
     if Player.find_by_name(player_name) is True:
         player_profile = Player.find_by_id()
-    
+
+#details about the game
 def about_game():
     prGreen('Select a topic to learn more!')
     print('1) How score is calculated: ')
@@ -124,13 +128,14 @@ def about_game():
     else:
         print('Please enter a valid answer')
 
-
+#kill terminal
 def quit_game():
     clear_terminal()
     sys.exit()
 
 #saves player from either login -> get_by_id
 #or the Player.create from new_player_menu
+#the menu used to create a new game given a player --> either from new player or login
 def new_game_menu(player_instance):
     clear_terminal()
     prRed('\nWelcome it is time to begin playing!')
@@ -139,7 +144,8 @@ def new_game_menu(player_instance):
     clear_terminal()
     prLightPurple('Let The Game Begin!')
     new_game.play()
-    
+
+#make all of the tables
 def make_tables():
     Player.drop_table()
     Game.drop_table()
@@ -148,6 +154,7 @@ def make_tables():
     Game.create_table()
     Result.create_table()
 
+#imports
 from classes.game import Game
 from classes.player import Player
 from classes.result import Result

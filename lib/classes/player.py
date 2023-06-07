@@ -10,7 +10,9 @@ class Player:
         self.id = None
 
 
-#instance properties/attributes
+####!instance properties/attributes
+
+#name property
     @property
     def name(self):
         return self._name
@@ -21,6 +23,7 @@ class Player:
         else:
             raise AttributeError('Your name must be a String of 20 characters or less')
 
+#username property
     @property
     def username(self):
         return self._username
@@ -30,20 +33,20 @@ class Player:
             self._username = username
         else:
             raise AttributeError('Please Enter A Valid Name')
-        
+
+#password property
     @property
     def password(self):
         return self._password
-    
     @password.setter
     def password(self,pin):
         if isinstance(pin,int):
             self._password = pin
         else:
             raise AttributeError('Please enter a valid password')
-#instance methods
 
-    #save()
+####!instance methods
+    #save player to db
     def save(self):
         CURSOR.execute(
             """
@@ -55,7 +58,9 @@ class Player:
         CONN.commit()
         self.id = CURSOR.lastrowid
 
-#class methods
+####!class methods
+
+#make the table if it doesnt already exist
     @classmethod
     def create_table(cls):
         CURSOR.execute(
@@ -70,14 +75,15 @@ class Player:
         )
         CONN.commit()
 
+#method to make a new class instance
     @classmethod
     def create(cls,name,username,password):
         new_player = Player(name,username,password)
         new_player.save()
         return new_player
 
-    
-    @classmethod #drop_table
+#drop_table
+    @classmethod 
     def drop_table(cls):
         CURSOR.execute("""
             DROP TABLE IF EXISTS players;
@@ -85,7 +91,8 @@ class Player:
         )
         CONN.commit()
 
-    @classmethod #find_by_id
+#find_by_id
+    @classmethod 
     def find_by_id(cls, id):
         if isinstance(id, int) and id > 0:
             CURSOR.execute("""
@@ -95,8 +102,9 @@ class Player:
             )
             row = CURSOR.fetchone()
             return cls(row[1], row[2], row[0]) if row else None
-        
-    @classmethod #find_by_name
+
+#find_by_name
+    @classmethod 
     def find_by_name(cls, name):
         if isinstance(id, int) and id > 0:
             CURSOR.execute("""
