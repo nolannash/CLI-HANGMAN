@@ -1,7 +1,7 @@
-import random
-from .player import Player
-from .__init__ import CONN,CURSOR
+
+
 class Game:
+
     EASY_WORDS = ['Hat','Bed','Cup','Fish','Jump','Milk'
 ,'Park','Duck','Sing','Beach','Frog','Baby','Cake'
 ,'Moon','Smile','Bear','Boat',"Train","Apple","Dance"
@@ -35,7 +35,7 @@ class Game:
 ,'Perspicacious','Conundrum','Serendipity','Mellifluous'
 ,'Inscrutable','Esoteric','Schadenfreude'
 ]
-   VALID_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
+    VALID_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
     
     def __init__(self,player, difficulty,word=''):
 
@@ -61,128 +61,233 @@ class Game:
 
         else:
             self._word = random.choice(Game.HARD_WORDS)
-    
-     word = property(get_word,set_word)
+    word = property(get_word,set_word)
 
 #instance methods
 
     def game_over(self):
         print('im 100% working')
 
-        return self.turns ==0 or self.letters_entered == set(list(self.get_word()))
-
+        return self.turns == 0 or self.letters_entered == set(list(self.get_word()))
+    
     def play_hangman(self):
-        # sourcery skip: hoist-statement-from-loop, use-fstring-for-concatenation
-        #show how many tries left(?)
         guessmade = ''
         word = self._word
         turns = self.turns
-        
-        while turns >0 :
+
+        while turns > 0:
             main = ""
-            
             for letter in word:
                 if letter in guessmade:
                     main = main + letter
-            main = main + "_" + " "
-        if main == word:
-            print(main)
-            print("You win!")
+                else:
+                    main = main + "_" + " "
 
-        print("Guess the word:" , main)
-        guess = input()
+            if main == self._word:
+                print(main)
+                print("You win!")
+                return
 
-        if guess in type(self).VALID_LETTERS:
-            guessmade += guess
-        else:
-            print("Enter a valid character")
+            print("Guess the word:", main)
             guess = input()
 
-        if guess not in word:
-            turns -=1
-            if turns == 0:
-                self.hm_extract(
-                "You loose", 
-                "You let a kind man die",
-                "  --------  "
-                )
-                print("     O_|    ")
-                print("    /|\      ")
-                print("    / \     ")
+            if guess in type(self).VALID_LETTERS:
+                guessmade += guess
+            else:
+                print("Enter a valid character")
+                continue 
 
-            elif turns == 1:
-                self.hm_extract(
-                "1 turns left",
-                "Last breaths counting, Take care!",
-                "  --------  ",
-                )
-                print("   \ O_|/   ")
-                print("     |      ")
-                print("    / \     ")
+            if guess not in word:
+                turns -= 1
+                if turns == 0:
+                    self.hm_extract(
+                        "You lose",
+                        "You let a kind man die",
+                        "  --------  "
+                    )
+                    print("     O_|    ")
+                    print("    /|\\     ")
+                    print("    / \\     ")
+                elif turns == 1:
+                    self.hm_extract(
+                        "1 turn left",
+                        "Last breaths counting, take care!",
+                        "  --------  ",
+                    )
+                    print("   \\ O_|/   ")
+                    print("     |      ")
+                    print("    / \\     ")
+                elif turns == 2:
+                    self.hm_extract(
+                        "2 turns left",
+                        "  --------  ",
+                        "   \\ O /|   "
+                    )
+                    print("     |      ")
+                    print("    / \\     ")
+                elif turns == 3:
+                    self.hm_extract(
+                        "3 turns left",
+                        "  --------  ",
+                        "   \\ O /    "
+                    )
+                    print("     |      ")
+                    print("    / \\     ")
+                elif turns == 4:
+                    self.hm_extract(
+                        "4 turns left",
+                        "  --------  ",
+                        "   \\ O      "
+                    )
+                    print("     |      ")
+                    print("    / \\     ")
+                elif turns == 5:
+                    self.hm_extract(
+                        "5 turns left",
+                        "  --------  ",
+                        "     O      "
+                    )
+                    print("     |      ")
+                    print("    / \\     ")
+                elif turns == 6:
+                    self.hm_extract(
+                        "6 turns left",
+                        "  --------  ",
+                        "     O      "
+                    )
+                    print("     |      ")
+                    print("    /       ")
+                elif turns == 7:
+                    self.hm_extract(
+                        "7 turns left",
+                        "  --------  ",
+                        "     O      "
+                    )
+                    print("     |      ")
+                elif turns == 8:
+                    self.hm_extract(
+                        "8 turns left",
+                        "  --------  ",
+                        "     O      "
+                    )
+                elif turns == 9:
+                    print("9 turns left")
+                    print("  --------  ")
 
-            elif turns == 2:
-                self.hm_extract(
-                "2 turns left", 
-                "  --------  ", 
-                "   \ O /|   "
-                )
-                print("     |      ")
-                print("    / \     ")
+    print("You ran out of turns. The word was:", word)
+    # def play_hangman(self):
+    #     # sourcery skip: hoist-statement-from-loop, use-fstring-for-concatenation
+    #     #show how many tries left(?)
+    #     guessmade = ''
+    #     word = self._word
+    #     turns = self.turns
+        
+    #     while turns > 0 :
+    #         main = ""
+            
+    #         for letter in word:
+    #             if letter in guessmade:
+    #                 main = main + letter
+    #         main = main + "_" + " "
+    #     if main == word:
+    #         print(main)
+    #         print("You win!")
 
-            elif turns == 3:
-                self.hm_extract(
-                "3 turns left", 
-                "  --------  ",
-                "   \ O /    "
-                )
-                print("     |      ")
-                print("    / \     ")
+    #     print("Guess the word:" , main)
+    #     guess = input()
 
-            elif turns == 4:
-                self.hm_extract(
-                "4 turns left", 
-                "  --------  ",
-                "   \ O      "
-                )
-                print("     |      ")
-                print("    / \     ")
+    #     if guess in type(self).VALID_LETTERS:
+    #         guessmade += guess
 
-            elif turns == 5:
-                self.hm_extract(
-                "5 turns left",
-                "  --------  ",
-                "     O      "
-                )
-                print("     |      ")
-                print("    / \     ")
+    #     else:
+    #         print("Enter a valid character")
+    #         guess = input()
 
-            elif turns == 6:
-                self.hm_extract(
-                "6 turns left", 
-                "  --------  ", 
-                "     O      "
-                )
-                print("     |      ")
-                print("    /       ")
+    #     if guess not in word:
+    #         turns -=1
+    #         if turns == 0:
+    #             self.hm_extract(
+    #             "You loose", 
+    #             "You let a kind man die",
+    #             "  --------  "
+    #             )
+    #             print("     O_|    ")
+    #             print("    /|\      ")
+    #             print("    / \     ")
 
-            elif turns == 7:
-                self.hm_extract(
-                "7 turns left", 
-                "  --------  ", 
-                "     O      "
-                )
-                print("     |      ")
+    #         elif turns == 1:
+    #             self.hm_extract(
+    #             "1 turns left",
+    #             "Last breaths counting, Take care!",
+    #             "  --------  ",
+    #             )
+    #             print("   \ O_|/   ")
+    #             print("     |      ")
+    #             print("    / \     ")
 
-            elif turns == 8:
-                self.hm_extract(
-                "8 turns left",
-                "  --------  ",
-                "     O      "
-                )
+    #         elif turns == 2:
+    #             self.hm_extract(
+    #             "2 turns left", 
+    #             "  --------  ", 
+    #             "   \ O /|   "
+    #             )
+    #             print("     |      ")
+    #             print("    / \     ")
 
-            elif turns == 9:
-                print("9 turns left")
-                print("  --------  ")
+    #         elif turns == 3:
+    #             self.hm_extract(
+    #             "3 turns left", 
+    #             "  --------  ",
+    #             "   \ O /    "
+    #             )
+    #             print("     |      ")
+    #             print("    / \     ")
+
+    #         elif turns == 4:
+    #             self.hm_extract(
+    #             "4 turns left", 
+    #             "  --------  ",
+    #             "   \ O      "
+    #             )
+    #             print("     |      ")
+    #             print("    / \     ")
+
+    #         elif turns == 5:
+    #             self.hm_extract(
+    #             "5 turns left",
+    #             "  --------  ",
+    #             "     O      "
+    #             )
+    #             print("     |      ")
+    #             print("    / \     ")
+
+    #         elif turns == 6:
+    #             self.hm_extract(
+    #             "6 turns left", 
+    #             "  --------  ", 
+    #             "     O      "
+    #             )
+    #             print("     |      ")
+    #             print("    /       ")
+
+    #         elif turns == 7:
+    #             self.hm_extract(
+    #             "7 turns left", 
+    #             "  --------  ", 
+    #             "     O      "
+    #             )
+    #             print("     |      ")
+
+    #         elif turns == 8:
+    #             self.hm_extract(
+    #             "8 turns left",
+    #             "  --------  ",
+    #             "     O      "
+    #             )
+
+    #         elif turns == 9:
+    #             print("9 turns left")
+    #             print("  --------  ")
 
     #connected to play hangman --> meant to reduce redundant typing
     def hm_extract(self, arg0, arg1, arg2):
@@ -226,3 +331,7 @@ class Game:
                 password INTEGER
             );        
         """)
+
+import random
+from classes.player import Player
+from classes.__init__ import CONN,CURSOR
