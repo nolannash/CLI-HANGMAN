@@ -89,10 +89,13 @@ def quit_game():
 #or the Player.create from new_player_menu
 def new_game_menu(player_instance):
     clear_terminal()
-    prRed('Welcome it is time to begin playing!')
-    difficulty = input('First please select a difficulty: \n"Easy" \n"Medium" \n"Hard"\n')
-    new_game = Game(player_instance,difficulty)
-    new_game.play_hangman()
+    prRed('\nWelcome it is time to begin playing!')
+    difficulty = input('First please select a difficulty: \n>>Easy \n>>Medium \n>>Hard\n')
+    new_game = Game(player_instance, difficulty.title())
+    clear_terminal()
+    prLightPurple('Let The Game Begin!')
+    new_game.play()
+    
     
 from classes.game import Game
 from classes.player import Player

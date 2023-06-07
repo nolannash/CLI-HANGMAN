@@ -11,6 +11,8 @@ from helpers import *
         #--> connected properly
     #game 
         # --> actually works + score calculator
+        # --> might be fun to add method to allow people who have certain amt of points to add words to the lists or something *win bonus*
+        #--> show all available letters --> guessed letters in color, correct in green and incorrect in red
 
 def main():
     welcome_message()
