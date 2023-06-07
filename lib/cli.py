@@ -15,7 +15,7 @@ from helpers import *
         #--> show all available letters --> guessed letters in color, correct in green and incorrect in red
 
 def main():
-    welcome_message()
+    make_tables()
     while True:
         start_menu()
         choice = input('\nPlease Select an Option: ')

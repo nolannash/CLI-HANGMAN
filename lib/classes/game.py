@@ -1,7 +1,3 @@
-import random
-from .player import Player
-from .__init__ import CONN,CURSOR
-
 EASY_WORDS = ['Hat','Bed','Cup','Fish','Jump','Milk'
 ,'Park','Duck','Sing','Beach','Frog','Baby','Cake'
 ,'Moon','Smile','Bear','Boat',"Train","Apple","Dance"
@@ -65,6 +61,12 @@ class Game:
     
     word = property(get_word,set_word)
 
+    def get_player(self):
+        return self._player
+    
+    def set_player(self,player):
+        if isinstance(player,Player):
+            self._player = player
 #instance methods
     def display_word(self):
         # sourcery skip: assign-if-exp, inline-immediately-returned-variable, use-fstring-for-concatenation, use-join
@@ -90,7 +92,7 @@ class Game:
 
     def display_hangman(self):
         if self.turns == 0:
-            self.hm_extract("You loose", "You let a good dev die", "  --------  ")
+            self.hm_extract("You let a good dev die", "  --------  ")
             print("     O_|    ")
             print("    /|\      ")
             print("    / \     ")
@@ -149,12 +151,11 @@ class Game:
             letter = input("Enter a letter: ")
             result = self.guess(letter)
             print(result)
-
-
-        if self.max_guesses > 0:
-            print("\nCongratulations! You guessed the word:", self.word)
-        else:
-            print("\nGame over! The word was:", self.word)
+            if self.turns > 0 and self:
+                print("\nCongratulations! You guessed the word:", self.word)
+            else:
+                print("\nGame over! The word was:", self.word)
+                self.score = 0
 
     def hm_extract(self, arg0, arg1, arg2):
         print(arg0)
@@ -174,10 +175,10 @@ class Game:
     def create_table(cls):
         CURSOR.execute('''
             CREATE TABLE IF NOT EXISTS games(
-                id INTEGET PRIMARY KEY,
-                player_id,
-                result INTEGER,
-                FORIEGN KEY (player_id) REFERENCES players(id)
+                id INTEGER PRIMARY KEY,
+                score INTEGER,
+                player_id INTEGER,
+                FOREIGN KEY (player_id) REFERENCES players(id)
             );        
         ''')
         CONN.commit()
@@ -187,3 +188,7 @@ class Game:
         CURSOR.execute("""
             DROP TABLE IF EXISTS games;
             """)
+
+import random
+from classes.player import Player
+from classes.__init__ import CONN,CURSOR

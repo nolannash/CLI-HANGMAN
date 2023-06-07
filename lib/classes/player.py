@@ -95,4 +95,17 @@ class Player:
             )
             row = CURSOR.fetchone()
             return cls(row[1], row[2], row[0]) if row else None
+        
+    @classmethod #find_by_name
+    def find_by_name(cls, name):
+        if isinstance(id, int) and id > 0:
+            CURSOR.execute("""
+            SELECT * FROM players
+            WHERE name =?;
+            """, (name,),
+            )
+            row = CURSOR.fetchall()
+            return cls(row[1], row[2], row[0]) if row else None
+
+    
 
