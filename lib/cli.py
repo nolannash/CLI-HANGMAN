@@ -1,5 +1,17 @@
 from helpers import *
 
+#nolans to-do thoughts:
+    #cli
+        # --> README
+    #helpers #
+        # --> add "help" methods --click/argparse(?)
+    #player #
+        # --> has lists of results
+    #results 
+        #--> connected properly
+    #game 
+        # --> actually works + score calculator
+
 def main():
     welcome_message()
     while True:
@@ -15,7 +27,7 @@ def main():
             quit_game()
             break
         else:
-            print('Please Enter Valid Answer')
+            prRed('Please Enter Valid Answer!')
             
 
 if __name__ == "__main__":

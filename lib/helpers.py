@@ -77,11 +77,16 @@ def help_menu():
     clear_terminal()
     print('''AVAILABLE HELP:''')
     #methods go here
+        #forgot username --> find by username
+        #player method to show highest scores
+        #point calculator explained
 
 def quit_game():
     clear_terminal()
     sys.exit()
 
+#saves player from either login -> get_by_id
+#or the Player.create from new_player_menu
 def new_game_menu(player_instance):
     clear_terminal()
     prRed('Welcome it is time to begin playing!')
