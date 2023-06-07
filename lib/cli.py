@@ -12,12 +12,14 @@
         # --> has lists of results
     #results 
         #--> connected properly
+        #create + add to database fn
+
     #game 
         # --> might be fun to add method to allow people who have certain amt of points to add words to the lists or something *win bonus*
         #--> show all available letters --> guessed letters in color, correct in green and incorrect in red
 
 def main():
-    make_tables()
+    # make_tables()
     while True:
         start_menu()
         choice = input('\nPlease Select an Option: ')
@@ -37,4 +39,10 @@ def main():
 if __name__ == "__main__":
     main()
 
-from helpers import *
+from helpers import (
+    login_menu,
+    new_player_menu,
+    help_menu,
+    quit_game,
+    start_menu,
+    prRed)

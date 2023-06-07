@@ -36,10 +36,9 @@ class Game:
 
     VALID_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
     
-    def __init__(self, player, difficulty,word='Easy'):
+    def __init__(self, difficulty):
         self.difficulty = difficulty
         self.letters_entered = set()
-        self.player = player
         self.set_word(self)
         self.turns = 10
         self.score = 0
@@ -197,6 +196,7 @@ class Game:
         ''')
         CONN.commit()
 
+    
 #drop the table
     @classmethod
     def drop_table(cls):

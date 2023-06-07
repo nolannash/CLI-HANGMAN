@@ -56,7 +56,6 @@ class Player:
         self.id = CURSOR.lastrowid
 
 ####!class methods
-
 #make the table if it doesnt already exist
     @classmethod
     def create_table(cls):
