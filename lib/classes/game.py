@@ -1,7 +1,3 @@
-import random
-from .player import Player
-from .__init__ import CONN,CURSOR
-
 EASY_WORDS = ['Hat','Bed','Cup','Fish','Jump','Milk'
 ,'Park','Duck','Sing','Beach','Frog','Baby','Cake'
 ,'Moon','Smile','Bear','Boat',"Train","Apple","Dance"
@@ -40,15 +36,16 @@ class Game:
 
     VALID_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
     
-    def __init__(self, player, difficulty,word='Easy'):
+    def __init__(self, difficulty):
         self.difficulty = difficulty
         self.letters_entered = set()
-        self.player = player
         self.set_word(self)
         self.turns = 10
         self.score = 0
 
-#properties and attributes
+####!properties and attributes
+
+#word property
     def get_word(self):
         return self._word
 
@@ -62,10 +59,21 @@ class Game:
 
         else:
             self._word = random.choice(HARD_WORDS).lower()
-    
+
     word = property(get_word,set_word)
 
-#instance methods
+#player property --> not done needs to set player (?)
+    def get_player(self):
+        return self._player
+    
+    def set_player(self,player):
+        if isinstance(player,Player):
+            self._player = player
+
+
+####!instance methods
+
+#method to display the word as the game goes along
     def display_word(self):
         # sourcery skip: assign-if-exp, inline-immediately-returned-variable, use-fstring-for-concatenation, use-join
         display = ''
@@ -76,6 +84,7 @@ class Game:
                 display += '_ '
         return display
 
+#method for when player makes a guess
     def guess(self,letter):
         letter = letter.lower()
         if letter in self.letters_entered:
@@ -85,12 +94,14 @@ class Game:
             self.turns -= 1
         return self.display_word()
 
+#method for determining when game is over
     def is_game_over(self):
         return all(letter in self.letters_entered for letter in self.word)
 
+#method to actually display the hangman
     def display_hangman(self):
         if self.turns == 0:
-            self.hm_extract("You loose", "You let a good dev die", "  --------  ")
+            self.hm_extract("You let a good dev die", "  --------  ")
             print("     O_|    ")
             print("    /|\      ")
             print("    / \     ")
@@ -141,6 +152,7 @@ class Game:
             print("9 turns left")
             print("  --------  ")
 
+#the game itself (uses ^ methods)
     def play(self):
         while not self.is_game_over():
             print("\n" + self.display_word())
@@ -149,18 +161,19 @@ class Game:
             letter = input("Enter a letter: ")
             result = self.guess(letter)
             print(result)
+            if self.turns > 0 and self:
+                print("\nCongratulations! You guessed the word:", self.word)
+            else:
+                print("\nGame over! The word was:", self.word)
+                self.score = 0
 
-
-        if self.max_guesses > 0:
-            print("\nCongratulations! You guessed the word:", self.word)
-        else:
-            print("\nGame over! The word was:", self.word)
-
+#extractor for display hangman
     def hm_extract(self, arg0, arg1, arg2):
         print(arg0)
         print(arg1)
         print(arg2)
 
+#method for calculating the score of a given game
     def score_calculator(self):
         word_length = len(self.word)
         unique_letters = len(set(self.word))
@@ -169,21 +182,29 @@ class Game:
         score = (correct_guesses * 10) - (incorrect_guesses * 5) + (word_length * 5) + (unique_letters * 10)
         self.score = max(0, score)
 
-#classmethods
+####!classmethods
+#make the table if it doesnt exist
     @classmethod
     def create_table(cls):
         CURSOR.execute('''
             CREATE TABLE IF NOT EXISTS games(
-                id INTEGET PRIMARY KEY,
-                player_id,
-                result INTEGER,
-                FORIEGN KEY (player_id) REFERENCES players(id)
+                id INTEGER PRIMARY KEY,
+                score INTEGER,
+                player_id INTEGER,
+                FOREIGN KEY (player_id) REFERENCES players(id)
             );        
         ''')
         CONN.commit()
-        
+
+    
+#drop the table
     @classmethod
     def drop_table(cls):
         CURSOR.execute("""
             DROP TABLE IF EXISTS games;
             """)
+
+####!imports
+import random
+from classes.player import Player
+from classes.__init__ import CONN,CURSOR

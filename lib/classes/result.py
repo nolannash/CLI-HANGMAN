@@ -118,6 +118,6 @@ class Result:
     
 
 
-from .player import Player
-from .game import Game
-from .__init__ import CONN,CURSOR
+from classes.player import Player
+from classes.game import Game
+from classes.__init__ import CONN,CURSOR
