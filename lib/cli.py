@@ -1,10 +1,13 @@
-from helpers import *
-
 #nolans to-do thoughts:
-    #cli
-        # --> README
+    #! MISSING DELIVERABLES
+        #confirm we are using: list,tuple,dictionary --> list good, 
+        #go back through validations
+        #add imported modules somehow 
+    #! THINGS WE COULD/SHOULD add
     #helpers #
         # --> add "help" methods --click/argparse(?)
+        # add method (in help?) to show scores --> all time highscore + personal
+
     #player #
         # --> has lists of results
     #results 
@@ -33,3 +36,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+from helpers import *

@@ -1,6 +1,3 @@
-
-from classes.__init__ import CONN, CURSOR
-
 class Player:
 
     def __init__(self,name, username, password):
@@ -115,5 +112,5 @@ class Player:
             row = CURSOR.fetchall()
             return cls(row[1], row[2], row[0]) if row else None
 
-    
+from classes.__init__ import CONN, CURSOR
 

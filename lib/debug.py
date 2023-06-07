@@ -1,7 +1,7 @@
-from classes.player import Player
-from classes.game import Game
-from classes.result import Result
-from classes.__init__ import CURSOR, CONN
+# from classes.player import Player
+# from classes.game import Game
+# from classes.result import Result
+# from classes.__init__ import CURSOR, CONN
 
 # # from faker import Faker
 # # faker = Faker()

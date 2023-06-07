@@ -1,7 +1,5 @@
-import sys
-import os
-
 ####!text colors
+#I couldve imported colorama here but I like the idea of replacing "print" with pr + color
 def prRed(skk):   # sourcery skip: use-fstring-for-formatting
     print("\033[91m{}\033[00m".format(skk))
 
@@ -24,7 +22,7 @@ def prCyan(skk): # sourcery skip: use-fstring-for-formatting
 def prLightPurple(skk):   # sourcery skip: use-fstring-for-formatting
     print("\033[94m{}\033[00m".format(skk))
 
-
+#add click functionality for some menu commands(?)
 ####!helper functions
 
 #clear out terminal
@@ -158,3 +156,6 @@ def make_tables():
 from classes.game import Game
 from classes.player import Player
 from classes.result import Result
+import sys
+import os
+
