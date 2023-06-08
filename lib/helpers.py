@@ -51,9 +51,25 @@ def login_menu():
         username_input = input('Please Enter Your Username: ')
         password_input = input('Please enter your password: ') 
         new_player = Player.auth_user(username_input, password_input)
-        print("Incorrect username or password. Try again")
-    new_game_menu(new_player)
+        prRed("Incorrect username or password. Try again")
+    clear_terminal()
+    logged_in_menu(new_player)
 
+def logged_in_menu(player_inst):
+    print(f'welcome {player_inst.username}!')
+    print('\n Please choose one of the following:')
+    prYellow('\n1) See your scores:')
+    prGreen('\n2) Start a new game:')
+    prRed('\n3) Quit')
+    choice = input()
+    if choice == '1':
+        show_me_scores(player_inst)
+    elif choice == '2':
+        new_game_menu(player_inst.id)
+    elif choice == '3':
+        quit_game()
+    else:
+        prRed('Please enter valid option')
     
 def new_player_menu():
     clear_terminal()
@@ -85,11 +101,6 @@ def help_menu():
     elif help == '2':
         about_game()
 
-#needs work
-def forgot_username():
-    player_name = input('Lets find your profile!')
-    if Player.find_by_name(player_name) is True:
-        player_profile = Player.find_by_id()
 
 #details about the game
 def about_game():
@@ -135,16 +146,28 @@ def quit_game():
 
 #saves player from either login -> get_by_id
 #or the Player.create from new_player_menu
+
 #the menu used to create a new game given a player --> either from new player or login
 def new_game_menu(player_instance):
+
     clear_terminal()
     prRed('\nWelcome it is time to begin playing!')
     difficulty = input('First please select a difficulty: \n>>Easy \n>>Medium \n>>Hard\n')
     new_game = Game.create(difficulty.title())
+    Result.create(0, new_player.id, new_game.id)
     clear_terminal()
     prLightPurple('Let The Game Begin!')
     new_game.play()
+ 
+def show_me_scores(player_inst_id):
+    CURSOR.execute(
+    """"SELECT 
+        games.word AS word,
+        results.score AS score,
+        FROM
     
+    """
+    )
     
 def make_tables():
     Player.drop_table()

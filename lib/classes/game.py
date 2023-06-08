@@ -65,15 +65,6 @@ class Game:
 
     word = property(get_word,set_word)
 
-#player property --> not done needs to set player (?)
-    def get_player(self):
-        return self._player
-    
-    def set_player(self,player):
-        if isinstance(player,Player):
-            self._player = player
-
-
 ####!instance methods
 
 #method to display the word as the game goes along
@@ -169,10 +160,26 @@ class Game:
 
         if self.max_guesses > 0:
             print("\nCongratulations! You guessed the word:", self.word)
+
+            self.score_calculator()
+            current_result = Result.find_by_game(self.id)
+            if current_result:
+                current_result.score = self.score
+                current_result.update_game_result(self.id, self.score)
+                print(f"Your score: {self.score}")
+            else:
+                print("There is no existing Result")
+
+            
+            print("You will be returned to the main menu screen shortly")
+            time.sleep(5)
+            return self.score
+           
+
         else:
             print("\nGame over! The word was:", self.word)
+    
 
-#extractor for display hangman
     def hm_extract(self, arg0, arg1, arg2):
         print(arg0)
         print(arg1)
@@ -186,6 +193,20 @@ class Game:
         incorrect_guesses = len(self.letters_entered.difference(set(self.word)))
         score = (correct_guesses * 10) - (incorrect_guesses * 5) + (word_length * 5) + (unique_letters * 10)
         self.score = max(0, score)
+
+        return self.score
+
+    def save(self):
+        CURSOR.execute (
+            """
+            INSERT INTO games (word)
+            VALUES (?)
+        """,
+            (self.word, )
+        )
+        CONN.commit()
+        self.id = CURSOR.lastrowid
+
 
 #classmethods
     @classmethod
@@ -207,8 +228,12 @@ class Game:
         CURSOR.execute("""
             DROP TABLE IF EXISTS games;
             """)
+
+
+    
         
 import random
-from __init__ import CONN,CURSOR
-from player import Player
-
+# from player import Player
+from classes.result import Result
+from .__init__ import CONN,CURSOR   
+import time
