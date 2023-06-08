@@ -127,7 +127,26 @@ class Result:
             return result
         else:
             return None
-
+        
+    #find max score
+    @classmethod
+    def find_max_score(cls):
+        CURSOR.execute(
+        """
+        SELECT players.username AS player, results.score AS score
+        FROM players
+        INNER JOIN results
+        ON players.id = results.player_id
+        ORDER BY results.score DESC
+        LIMIT 1;
+        """
+        )
+        row = CURSOR.fetchone()
+        if row:
+            player_name, max_score = row
+            return player_name, max_score
+        else:
+            return None
 
 from .player import Player
 from .game import Game

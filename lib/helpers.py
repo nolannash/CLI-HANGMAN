@@ -1,6 +1,6 @@
 import sys
 import os
-
+import time
 #text colors and helper functions
         #red
 def prRed(skk):   # sourcery skip: use-fstring-for-formatting
@@ -35,8 +35,13 @@ def welcome_message():
     prPink('Hello and Welcome to: Python Hangman!')
 
 def start_menu():
+   
     clear_terminal()
-
+    player_name, max_score = Result.find_max_score()
+    if player_name and max_score:
+        print(f"The player with the highest score is {player_name} with a score of {max_score}")
+    else:
+        print("No results found.")
     prGreen('\n1) Login')
     prCyan('2) New Player')
     prYellow('3) Help')
@@ -63,6 +68,7 @@ def logged_in_menu(player_inst):
     choice = input()
     if choice == '1':
         show_me_scores(player_inst.id)
+        time.sleep(10)
     elif choice == '2':
         new_game_menu(player_inst.id)
     elif choice == '3':
@@ -123,16 +129,34 @@ def new_game_menu(player_instance):
     prLightPurple('Let The Game Begin!')
     new_game.play()
 
+# def show_me_scores(player_inst_id):
+#     CURSOR.execute(
+#     """"
+#     SELECT games.word, results.score 
+#     FROM games
+#     INNER JOIN results 
+#     ON games.id = results.game_id
+#     INNER JOIN players 
+#     ON players.id = results.player_id
+#     """, (player_inst_id, )
+#     )
+#     # row = CURSOR.fetchall()
+#     # if row:
+#     #     player_name
 def show_me_scores(player_inst_id):
     CURSOR.execute(
-    """"SELECT 
-        games.word, results.score 
-        FROM results
-        INNER JOIN games
-        ON results.player_id = ? AND results.game_id = games.id
+    """
+    SELECT games.word, results.score
+    FROM results
+    INNER JOIN games ON results.game_id = games.id
+    WHERE results.player_id = ?
+    ORDER BY results.score DESC
     """, (player_inst_id,)
     )
-    
+    rows = CURSOR.fetchall()
+    for row in rows:
+        word, score = row
+        print(f"Word: {word} | Score: {score}")   
     
 def make_tables():
     Player.drop_table()
