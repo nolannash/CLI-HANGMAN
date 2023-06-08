@@ -44,15 +44,17 @@ def start_menu():
 
 #if the player has played before 
 def login_menu():
-    clear_terminal()
-    username_input = input('Please Enter Your Username:')
-    username_input.username == Player.username:
-        returning_player = Player.find_by_id(Player.id)
-        new_game_menu(returning_player)
-    else:
-        choice = 0
 
-#if the player hasnt played before
+    new_player = None
+
+    while not new_player:
+        username_input = input('Please Enter Your Username: ')
+        password_input = input('Please enter your password: ') 
+        new_player = Player.auth_user(username_input, password_input)
+        print("Incorrect username or password. Try again")
+    new_game_menu(new_player)
+
+    
 def new_player_menu():
     clear_terminal()
     
@@ -68,7 +70,7 @@ def new_player_menu():
     
     new_player = Player.create(name,userName,int(password))
     
-    # new_player.save()
+   
     new_game_menu(new_player)
 
 #if the player needs help
@@ -138,12 +140,12 @@ def new_game_menu(player_instance):
     clear_terminal()
     prRed('\nWelcome it is time to begin playing!')
     difficulty = input('First please select a difficulty: \n>>Easy \n>>Medium \n>>Hard\n')
-    new_game = Game(player_instance, difficulty.title())
+    new_game = Game.create(difficulty.title())
     clear_terminal()
     prLightPurple('Let The Game Begin!')
     new_game.play()
-
-#make all of the tables
+    
+    
 def make_tables():
     Player.drop_table()
     Game.drop_table()

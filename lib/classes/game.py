@@ -1,3 +1,5 @@
+
+
 EASY_WORDS = ['Hat','Bed','Cup','Fish','Jump','Milk'
 ,'Park','Duck','Sing','Beach','Frog','Baby','Cake'
 ,'Moon','Smile','Bear','Boat',"Train","Apple","Dance"
@@ -36,9 +38,10 @@ class Game:
 
     VALID_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
     
-    def __init__(self, difficulty):
+    def __init__(self, difficulty,id=None):
         self.difficulty = difficulty
         self.letters_entered = set()
+        self.id = id
         self.set_word(self)
         self.turns = 10
         self.score = 0
@@ -96,9 +99,11 @@ class Game:
 
 #method for determining when game is over
     def is_game_over(self):
-        return all(letter in self.letters_entered for letter in self.word)
+        return self.game_won() or self.turns == 0
 
-#method to actually display the hangman
+    def game_won(self):
+        return all(letter in self.letters_entered for letter in self.word) 
+    
     def display_hangman(self):
         if self.turns == 0:
             self.hm_extract("You let a good dev die", "  --------  ")
@@ -152,20 +157,20 @@ class Game:
             print("9 turns left")
             print("  --------  ")
 
-#the game itself (uses ^ methods)
     def play(self):
         while not self.is_game_over():
             print("\n" + self.display_word())
-            # print("Guesses left:", self.max_guesses)
+
             self.display_hangman()
             letter = input("Enter a letter: ")
             result = self.guess(letter)
             print(result)
-            if self.turns > 0 and self:
-                print("\nCongratulations! You guessed the word:", self.word)
-            else:
-                print("\nGame over! The word was:", self.word)
-                self.score = 0
+
+
+        if self.max_guesses > 0:
+            print("\nCongratulations! You guessed the word:", self.word)
+        else:
+            print("\nGame over! The word was:", self.word)
 
 #extractor for display hangman
     def hm_extract(self, arg0, arg1, arg2):
@@ -182,16 +187,15 @@ class Game:
         score = (correct_guesses * 10) - (incorrect_guesses * 5) + (word_length * 5) + (unique_letters * 10)
         self.score = max(0, score)
 
-####!classmethods
-#make the table if it doesnt exist
+#classmethods
     @classmethod
     def create_table(cls):
         CURSOR.execute('''
             CREATE TABLE IF NOT EXISTS games(
-                id INTEGER PRIMARY KEY,
-                score INTEGER,
-                player_id INTEGER,
-                FOREIGN KEY (player_id) REFERENCES players(id)
+                id INTEGET PRIMARY KEY,
+                player_id,
+                result INTEGER,
+                FORIEGN KEY (player_id) REFERENCES players(id)
             );        
         ''')
         CONN.commit()
@@ -203,8 +207,8 @@ class Game:
         CURSOR.execute("""
             DROP TABLE IF EXISTS games;
             """)
-
-####!imports
+        
 import random
-from classes.player import Player
-from classes.__init__ import CONN,CURSOR
+from __init__ import CONN,CURSOR
+from player import Player
+

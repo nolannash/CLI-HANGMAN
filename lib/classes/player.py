@@ -1,10 +1,13 @@
+from __init__ import CONN, CURSOR
+
 class Player:
 
-    def __init__(self,name, username, password):
+    def __init__(self, name, username, password, id=None):
         self.name = name
         self.username = username
         self.password = int(password)
-        self.id = None
+        self.id = id
+        
 
 
 ####!instance properties/attributes
@@ -55,8 +58,20 @@ class Player:
         CONN.commit()
         self.id = CURSOR.lastrowid
 
-####!class methods
-#make the table if it doesnt already exist
+#class methods
+
+    #validate username
+    @classmethod
+    def auth_user(cls, username, password):
+        CURSOR.execute(
+            """
+            SELECT * FROM players
+            WHERE username = ? AND password = ?
+            """, (username, password)
+        )
+        row = CURSOR.fetchone()
+        return cls(row[1], row[2], row[3], row[0]) if row else None
+
     @classmethod
     def create_table(cls):
         CURSOR.execute(
@@ -73,7 +88,7 @@ class Player:
 
 #method to make a new class instance
     @classmethod
-    def create(cls,name,username,password):
+    def create(cls, name,username,password):
         new_player = Player(name,username,password)
         new_player.save()
         return new_player
@@ -98,18 +113,3 @@ class Player:
             )
             row = CURSOR.fetchone()
             return cls(row[1], row[2], row[0]) if row else None
-
-#find_by_name
-    @classmethod 
-    def find_by_name(cls, name):
-        if isinstance(id, int) and id > 0:
-            CURSOR.execute("""
-            SELECT * FROM players
-            WHERE name =?;
-            """, (name,),
-            )
-            row = CURSOR.fetchall()
-            return cls(row[1], row[2], row[0]) if row else None
-
-from classes.__init__ import CONN, CURSOR
-
