@@ -4,8 +4,8 @@ from classes.result import Result
 from classes.__init__ import CURSOR, CONN
 from helpers import make_tables
 
-# from faker import Faker
-# faker = Faker()
+# # from faker import Faker
+# # faker = Faker()
 
 make_tables()
 #create sample players (name, username, password)

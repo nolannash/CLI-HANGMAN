@@ -38,16 +38,17 @@ class Game:
 
     VALID_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
     
-    def __init__(self, difficulty):
+    def __init__(self, difficulty,id=None):
         self.difficulty = difficulty
         self.letters_entered = set()
-        self.id = None
-        self.player_id = None
+        self.id = id
         self.set_word(self)
         self.turns = 10
         self.score = 0
 
-#properties and attributes
+####!properties and attributes
+
+#word property
     def get_word(self):
         return self._word
 
@@ -61,10 +62,12 @@ class Game:
 
         else:
             self._word = random.choice(HARD_WORDS).lower()
-    
+
     word = property(get_word,set_word)
 
-#instance methods
+####!instance methods
+
+#method to display the word as the game goes along
     def display_word(self):
         # sourcery skip: assign-if-exp, inline-immediately-returned-variable, use-fstring-for-concatenation, use-join
         display = ''
@@ -75,6 +78,7 @@ class Game:
                 display += '_ '
         return display
 
+#method for when player makes a guess
     def guess(self,letter):
         letter = letter.lower()
         if letter in self.letters_entered:
@@ -84,6 +88,7 @@ class Game:
             self.turns -= 1
         return self.display_word()
 
+#method for determining when game is over
     def is_game_over(self):
         return self.game_won() or self.turns == 0
 
@@ -92,7 +97,7 @@ class Game:
     
     def display_hangman(self):
         if self.turns == 0:
-            self.hm_extract("You loose", "You let a good dev die", "  --------  ")
+            self.hm_extract("You let a good dev die", "  --------  ")
             print("     O_|    ")
             print("    /|\      ")
             print("    / \     ")
@@ -146,15 +151,16 @@ class Game:
     def play(self):
         while not self.is_game_over():
             print("\n" + self.display_word())
-            # print("Guesses left:", self.max_guesses)
+
             self.display_hangman()
             letter = input("Enter a letter: ")
             result = self.guess(letter)
             print(result)
 
 
-        if self.game_won():
+        if self.max_guesses > 0:
             print("\nCongratulations! You guessed the word:", self.word)
+
             self.score_calculator()
             current_result = Result.find_by_game(self.id)
             if current_result:
@@ -173,11 +179,13 @@ class Game:
         else:
             print("\nGame over! The word was:", self.word)
     
+
     def hm_extract(self, arg0, arg1, arg2):
         print(arg0)
         print(arg1)
         print(arg2)
 
+#method for calculating the score of a given game
     def score_calculator(self):
         word_length = len(self.word)
         unique_letters = len(set(self.word))
@@ -185,6 +193,7 @@ class Game:
         incorrect_guesses = len(self.letters_entered.difference(set(self.word)))
         score = (correct_guesses * 10) - (incorrect_guesses * 5) + (word_length * 5) + (unique_letters * 10)
         self.score = max(0, score)
+
         return self.score
 
     def save(self):
@@ -198,29 +207,28 @@ class Game:
         CONN.commit()
         self.id = CURSOR.lastrowid
 
-#classmethods
-#CREATE "create" method to create Game instance so data can be inserted
-    @classmethod
-    def create(cls, difficulty):
-        new_game = Game(difficulty)
-        new_game.save()
-        return new_game
 
+#classmethods
     @classmethod
     def create_table(cls):
         CURSOR.execute('''
             CREATE TABLE IF NOT EXISTS games(
-                id INTEGER PRIMARY KEY,
-                word TEXT  
+                id INTEGET PRIMARY KEY,
+                player_id,
+                result INTEGER,
+                FORIEGN KEY (player_id) REFERENCES players(id)
             );        
         ''')
         CONN.commit()
-        
+
+    
+#drop the table
     @classmethod
     def drop_table(cls):
         CURSOR.execute("""
             DROP TABLE IF EXISTS games;
             """)
+
 
     
         

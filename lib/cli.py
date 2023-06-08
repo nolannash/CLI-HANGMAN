@@ -1,22 +1,27 @@
-from helpers import *
-
 #nolans to-do thoughts:
-    #cli
-        # --> README
+    #! MISSING DELIVERABLES
+        #confirm we are using: list,tuple,dictionary --> list good, 
+        #go back through validations
+        #add imported modules somehow 
+    #! THINGS WE COULD/SHOULD add
     #helpers #
         # --> add "help" methods --click/argparse(?)
+        # add method (in help?) to show scores --> all time highscore + personal
+
     #player #
         # --> has lists of results
     #results 
         #--> connected properly
+        #create + add to database fn
+
     #game 
-        # --> actually works + score calculator
         # --> might be fun to add method to allow people who have certain amt of points to add words to the lists or something *win bonus*
         #--> show all available letters --> guessed letters in color, correct in green and incorrect in red
 
 def main():
     make_tables()
     welcome_message()
+
     while True:
         start_menu()
         choice = input('\nPlease Select an Option: ')
@@ -35,3 +40,11 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+from helpers import (
+    login_menu,
+    new_player_menu,
+    help_menu,
+    quit_game,
+    start_menu,
+    prRed)
