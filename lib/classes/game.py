@@ -42,6 +42,7 @@ class Game:
         self.difficulty = difficulty
         self.letters_entered = set()
         self.id = None
+        self.player_id = None
         self.set_word(self)
         self.turns = 10
         self.score = 0
@@ -155,15 +156,23 @@ class Game:
         if self.game_won():
             print("\nCongratulations! You guessed the word:", self.word)
             self.score_calculator()
-            print(f"Your score: {self.score}")
-            self.update_score()
+            current_result = Result.find_by_game(self.id)
+            if current_result:
+                current_result.score = self.score
+                current_result.update_game_result(self.id, self.score)
+                print(f"Your score: {self.score}")
+            else:
+                print("There is no existing Result")
+
+            
             print("You will be returned to the main menu screen shortly")
             time.sleep(5)
+            return self.score
            
 
         else:
             print("\nGame over! The word was:", self.word)
-
+    
     def hm_extract(self, arg0, arg1, arg2):
         print(arg0)
         print(arg1)
@@ -176,16 +185,7 @@ class Game:
         incorrect_guesses = len(self.letters_entered.difference(set(self.word)))
         score = (correct_guesses * 10) - (incorrect_guesses * 5) + (word_length * 5) + (unique_letters * 10)
         self.score = max(0, score)
-        
-    #move to Result class
-    def update_score(self):
-        CURSOR.execute("""
-            UPDATE games
-            SET score =?
-            WHERE id = ?;
-        """, (self.score, self.id)
-        ,)
-        CONN.commit()
+        return self.score
 
     def save(self):
         CURSOR.execute (
@@ -222,8 +222,10 @@ class Game:
             DROP TABLE IF EXISTS games;
             """)
 
+    
+        
 import random
 # from player import Player
-# from result import Result
+from classes.result import Result
 from .__init__ import CONN,CURSOR   
 import time

@@ -52,13 +52,13 @@ def login_menu():
     new_player = None
 
     while not new_player:
-        print("Incorrect username or password. Try again")
         username_input = input('Please Enter Your Username: ')
         password_input = input('Please enter your password: ') 
         new_player = Player.auth_user(username_input, password_input)
+        print("Incorrect username or password. Try again")
     new_game_menu(new_player)
 
-    
+
 def new_player_menu():
     clear_terminal()
     
@@ -92,11 +92,12 @@ def quit_game():
 
 #saves player from either login -> get_by_id
 #or the Player.create from new_player_menu
-def new_game_menu(player_instance):
+def new_game_menu(new_player):
     clear_terminal()
     prRed('\nWelcome it is time to begin playing!')
     difficulty = input('First please select a difficulty: \n>>Easy \n>>Medium \n>>Hard\n')
     new_game = Game.create(difficulty.title())
+    Result.create(0, new_player.id, new_game.id)
     clear_terminal()
     prLightPurple('Let The Game Begin!')
     new_game.play()
