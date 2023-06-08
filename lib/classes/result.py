@@ -1,12 +1,39 @@
 class Result:
     
+    #do I need "player", "name" as arguments in init? or ID is the reference
     def __init__(self, score, player_id, game_id):
         self.player_id = player_id
         self.game_id = game_id
         self.score = score
         self.id = None
 
-####!instance properties/attributes
+    # #player getter
+    # @property
+    # def player(self):
+    #     return self._player
+    
+    # #player setter
+    # @player.setter
+    # def player(self, player):
+    #     if isinstance(player, Player):
+    #         self._player = player
+    #     else:
+    #         raise TypeError("Must be of type Player")
+
+    # #game getter
+    # @property
+    # def game(self):
+    #     return self._game
+
+    # #game setter
+    # @game.setter
+    # def game(self, game):
+    #     if isinstance(game, Game):
+    #         self._game = game
+    #     else:
+    #         raise TypeError("Must be of type Game")
+
+    #score getter
     @property
     def score(self):
         return self._score
@@ -18,7 +45,7 @@ class Result:
             self._score = score
         else:
             raise TypeError("Must be of type Game")
-
+    
     def update_game_result(self, score, game_id):
         CURSOR.execute("""
             UPDATE results
@@ -40,18 +67,7 @@ class Result:
         CONN.commit()
         self.id = CURSOR.lastrowid
 
-        #update difficiculty scores
-    def update_game_result(self, game_id, score):
-        CURSOR.execute(
-            """
-            UPDATE results
-            SET score = ?
-            WHERE game_id = ?;
-            """,
-            (score, game_id),
-        )
-        CONN.commit()
-#!class methods
+#class methods
     #create
     @classmethod
     def create(cls, score, player_id, game_id):
@@ -59,7 +75,7 @@ class Result:
         # new_result.score = score
         new_result.save()
         return new_result
-
+   
     #create_table
     @classmethod
     def create_table(cls):
@@ -83,7 +99,19 @@ class Result:
         CURSOR.execute("""
             DROP TABLE IF EXISTS results;
             """)
-
+        
+    #update difficiculty scores
+    
+    def update_game_result(self, game_id, score):
+        CURSOR.execute(
+            """
+            UPDATE results
+            SET score = ?
+            WHERE game_id = ?;
+            """,
+            (score, game_id),
+        )
+        CONN.commit()
 
     @classmethod
     def find_by_game(cls, game_id):
@@ -95,24 +123,12 @@ class Result:
         )
         row = CURSOR.fetchone()
         if row:
-            return Result(row[1], row[2], row[3])
-        else:
-            return None
-    
-    @classmethod
-    def find_max_score(cls):
-        CURSOR.execute("""
-        SELECT players.username AS player, MAX(results.score) as score
-        FROM players
-        INNER JOIN results
-        ON players.id = results.player_id
-        """
-        )
-        row = CURSOR.fetchone()
-        if row:
-            return Result(row[1], row[2], row[3])
+            result = Result(row[1], row[2], row[3])  # Adjust the parameter order if necessary
+            return result
         else:
             return None
 
 
-from classes.__init__ import CONN,CURSOR
+from .player import Player
+from .game import Game
+from .__init__ import CONN,CURSOR
