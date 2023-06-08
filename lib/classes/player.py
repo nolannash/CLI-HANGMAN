@@ -1,5 +1,4 @@
 from __init__ import CONN, CURSOR
-
 class Player:
 
     def __init__(self, name, username, password, id=None):
@@ -7,11 +6,9 @@ class Player:
         self.username = username
         self.password = int(password)
         self.id = id
-        
 
 
 ####!instance properties/attributes
-
 #name property
     @property
     def name(self):
@@ -58,7 +55,7 @@ class Player:
         CONN.commit()
         self.id = CURSOR.lastrowid
 
-#class methods
+#!class methods
 
     #validate username
     @classmethod

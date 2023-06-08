@@ -1,0 +1,3 @@
+SQLite version 3.37.2 2022-01-06 13:25:41
+Enter ".help" for usage hints.
+[?2004hsqlite> sqlite> .mode columnsqlite> .mode column[Ksqlite> sqlite> .mode columnsqlite> .mode column^C[?2004l[?2004h^C[?2004l[?2004h[?2004l

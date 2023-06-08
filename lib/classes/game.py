@@ -1,5 +1,3 @@
-
-
 EASY_WORDS = ['Hat','Bed','Cup','Fish','Jump','Milk'
 ,'Park','Duck','Sing','Beach','Frog','Baby','Cake'
 ,'Moon','Smile','Bear','Boat',"Train","Apple","Dance"
@@ -47,7 +45,6 @@ class Game:
         self.score = 0
 
 ####!properties and attributes
-
 #word property
     def get_word(self):
         return self._word
@@ -87,14 +84,17 @@ class Game:
         if letter not in self.word:
             self.turns -= 1
         return self.display_word()
+        
 
 #method for determining when game is over
     def is_game_over(self):
         return self.game_won() or self.turns == 0
 
+#determine if at game over you win or lose
     def game_won(self):
         return all(letter in self.letters_entered for letter in self.word) 
-    
+
+#actually show the hangman
     def display_hangman(self):
         if self.turns == 0:
             self.hm_extract("You let a good dev die", "  --------  ")
@@ -148,6 +148,7 @@ class Game:
             print("9 turns left")
             print("  --------  ")
 
+#now that you can play the game you SHOULD play the game
     def play(self):
         while not self.is_game_over():
             print("\n" + self.display_word())
@@ -170,16 +171,15 @@ class Game:
             else:
                 print("There is no existing Result")
 
-            
+
             print("You will be returned to the main menu screen shortly")
             time.sleep(5)
             return self.score
-           
 
         else:
             print("\nGame over! The word was:", self.word)
-    
 
+#little extractor function for printing in play
     def hm_extract(self, arg0, arg1, arg2):
         print(arg0)
         print(arg1)
@@ -196,6 +196,7 @@ class Game:
 
         return self.score
 
+#persist that game!
     def save(self):
         CURSOR.execute (
             """
@@ -206,7 +207,6 @@ class Game:
         )
         CONN.commit()
         self.id = CURSOR.lastrowid
-
 
 #classmethods
     @classmethod
@@ -221,8 +221,7 @@ class Game:
         ''')
         CONN.commit()
 
-    
-#drop the table
+#drop the table 
     @classmethod
     def drop_table(cls):
         CURSOR.execute("""
@@ -230,10 +229,7 @@ class Game:
             """)
 
 
-    
-        
 import random
-# from player import Player
 from classes.result import Result
 from .__init__ import CONN,CURSOR   
 import time
