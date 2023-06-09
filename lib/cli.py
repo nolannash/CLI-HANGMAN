@@ -16,7 +16,6 @@ from helpers import *
 
 def main():
     # make_tables()
-    welcome_message()
     while True:
         start_menu()
         choice = input('\nPlease Select an Option: ')

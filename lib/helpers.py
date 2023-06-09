@@ -35,8 +35,8 @@ def welcome_message():
     prPink('Hello and Welcome to: Python Hangman!')
 
 def start_menu():
-   
     clear_terminal()
+    welcome_message()
     player_name, max_score = Result.find_max_score()
     if player_name and max_score:
         print(f"The player with the highest score is {player_name} with a score of {max_score}")
@@ -68,10 +68,12 @@ def logged_in_menu(player_inst):
     choice = input()
     if choice == '1':
         show_me_scores(player_inst.id)
-        time.sleep(10)
+        time.sleep(5)
     elif choice == '2':
         new_game_menu(player_inst.id)
     elif choice == '3':
+        help_menu()
+    elif choice == '4':
         quit_game()
     else:
         prRed('Please enter valid option')
@@ -94,14 +96,67 @@ def new_player_menu():
     new_game_menu(new_player)
 
 
-
+        
 def help_menu():
     clear_terminal()
-    print('''AVAILABLE HELP:''')
-    #methods go here
-        #forgot username --> find by username
-        #player method to show highest scores
-        #point calculator explained
+    while True:
+        print('''AVAILABLE HELP:''')
+        print('1) High Scores')
+        print('2) About the game')
+        print('3) Return to main menu')
+        prRed("Please select an option")
+        help = input(">>>") #tweak to make it look better in terminal
+        if help == '1':
+            top_scores = Result.get_top_scores()
+            if top_scores:
+                for score in top_scores:
+                    print(f"Player: {score['Player']}, Word: {score['Word']}, Score: {score['Score']}")
+            else:
+                print("No top scores available.")
+            time.sleep(5)
+        
+        elif help == '2':
+            about_game()
+        elif help == "3":
+            break
+
+
+def about_game():
+    prGreen('Select a topic to learn more!')
+    print('1) How score is calculated: ')
+    print('2) How difficulty is determined')
+    print('3) Extras')
+    choice = input()
+    if choice == '1':
+        print('The following is used to determine your score after each game:')
+
+        print('\nEach correct guess adds 10 points.')
+
+        print('\nEach incorrect guess deducts 5 points.')
+
+        print('\nThe word length is multiplied by 5 and added to the score.')
+
+        print('\nThe number of unique letters in the word is multiplied by 10 and added to the score.')
+
+        print('\nAdditional points are added based on selected difficulty.')
+
+        time.sleep(10)
+    elif choice == '2':
+        print('The following is used to determine the difficulty of each word:')
+
+        print('\nWord Length: The words in each difficulty category were chosen to have an average length appropriate for the difficulty level.')
+
+        print('\nVocabulary: Commonly used words were prioritized in the easy category, while medium and hard words include more specialized vocabulary or less frequently used terms.')
+
+        print('\nComplexity: The complexity of the words increases as the difficulty level rises. Easy words are simple and commonly known, while hard words are more challenging and might require specific knowledge or context.')
+
+        print('\n*Variety: The list aims to include a diverse range of words, covering different themes, topics, and word structures.')
+        time.sleep(10)
+    elif choice == '3':
+        print('there are no extras right now')
+        time.sleep(10)
+    else:
+        print('Please enter a valid answer')
 
 def quit_game():
     clear_terminal()

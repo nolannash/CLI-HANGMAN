@@ -147,6 +147,28 @@ class Result:
             return player_name, max_score
         else:
             return None
+        
+    @classmethod
+    def get_top_scores(cls):
+        CURSOR.execute(
+        """
+        SELECT players.username AS player, games.word AS word, results.score AS score
+        FROM players
+        INNER JOIN results ON players.id = results.player_id
+        INNER JOIN games ON games.id = results.game_id
+        ORDER BY results.score DESC
+        LIMIT 3;
+        """
+        )
+        rows = CURSOR.fetchall()
+        if rows:
+            top_scores = []
+            for row in rows:
+                player_name, word, score = row
+                top_scores.append({"Player": player_name, "Word": word, "Score": score})
+            return top_scores
+        else:
+            return None
 
 from .player import Player
 from .game import Game

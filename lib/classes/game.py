@@ -149,6 +149,11 @@ class Game:
             # print("Guesses left:", self.max_guesses)
             self.display_hangman()
             letter = input("Enter a letter: ")
+            if len(letter) == 1 and not letter.isdigit() and not letter.strip() == "":
+                result = self.guess(letter)
+                print(result)
+            else:
+                print("Guesses must be 1 letter (No numbers, spaces)")
             result = self.guess(letter)
             print(result)
 
