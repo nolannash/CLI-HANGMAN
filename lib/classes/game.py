@@ -1,3 +1,5 @@
+
+
 EASY_WORDS = ['Hat','Bed','Cup','Fish','Jump','Milk'
 ,'Park','Duck','Sing','Beach','Frog','Baby','Cake'
 ,'Moon','Smile','Bear','Boat',"Train","Apple","Dance"
@@ -36,16 +38,16 @@ class Game:
 
     VALID_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
     
-    def __init__(self, difficulty,id=None):
+    def __init__(self, difficulty):
         self.difficulty = difficulty
         self.letters_entered = set()
-        self.id = id
+        self.id = None
+        self.player_id = None
         self.set_word(self)
         self.turns = 10
         self.score = 0
 
-####!properties and attributes
-#word property
+#properties and attributes
     def get_word(self):
         return self._word
 
@@ -59,12 +61,10 @@ class Game:
 
         else:
             self._word = random.choice(HARD_WORDS).lower()
-
+    
     word = property(get_word,set_word)
 
-####!instance methods
-
-#method to display the word as the game goes along
+#instance methods
     def display_word(self):
         # sourcery skip: assign-if-exp, inline-immediately-returned-variable, use-fstring-for-concatenation, use-join
         display = ''
@@ -75,7 +75,6 @@ class Game:
                 display += '_ '
         return display
 
-#method for when player makes a guess
     def guess(self,letter):
         letter = letter.lower()
         if letter in self.letters_entered:
@@ -84,20 +83,16 @@ class Game:
         if letter not in self.word:
             self.turns -= 1
         return self.display_word()
-        
 
-#method for determining when game is over
     def is_game_over(self):
         return self.game_won() or self.turns == 0
 
-#determine if at game over you win or lose
     def game_won(self):
         return all(letter in self.letters_entered for letter in self.word) 
-
-#actually show the hangman
+    
     def display_hangman(self):
         if self.turns == 0:
-            self.hm_extract("You let a good dev die", "  --------  ")
+            self.hm_extract("You loose", "You let a good dev die", "  --------  ")
             print("     O_|    ")
             print("    /|\      ")
             print("    / \     ")
@@ -148,20 +143,23 @@ class Game:
             print("9 turns left")
             print("  --------  ")
 
-#now that you can play the game you SHOULD play the game
     def play(self):
         while not self.is_game_over():
             print("\n" + self.display_word())
-
+            # print("Guesses left:", self.max_guesses)
             self.display_hangman()
             letter = input("Enter a letter: ")
+            if len(letter) == 1 and not letter.isdigit() and not letter.strip() == "":
+                result = self.guess(letter)
+                print(result)
+            else:
+                print("Guesses must be 1 letter (No numbers, spaces)")
             result = self.guess(letter)
             print(result)
 
 
-        if self.max_guesses > 0:
+        if self.game_won():
             print("\nCongratulations! You guessed the word:", self.word)
-
             self.score_calculator()
             current_result = Result.find_by_game(self.id)
             if current_result:
@@ -171,21 +169,20 @@ class Game:
             else:
                 print("There is no existing Result")
 
-
+            
             print("You will be returned to the main menu screen shortly")
             time.sleep(5)
             return self.score
+           
 
         else:
             print("\nGame over! The word was:", self.word)
-
-#little extractor function for printing in play
+    
     def hm_extract(self, arg0, arg1, arg2):
         print(arg0)
         print(arg1)
         print(arg2)
 
-#method for calculating the score of a given game
     def score_calculator(self):
         word_length = len(self.word)
         unique_letters = len(set(self.word))
@@ -193,10 +190,8 @@ class Game:
         incorrect_guesses = len(self.letters_entered.difference(set(self.word)))
         score = (correct_guesses * 10) - (incorrect_guesses * 5) + (word_length * 5) + (unique_letters * 10)
         self.score = max(0, score)
-
         return self.score
 
-#persist that game!
     def save(self):
         CURSOR.execute (
             """
@@ -209,27 +204,33 @@ class Game:
         self.id = CURSOR.lastrowid
 
 #classmethods
+#CREATE "create" method to create Game instance so data can be inserted
+    @classmethod
+    def create(cls, difficulty):
+        new_game = Game(difficulty)
+        new_game.save()
+        return new_game
+
     @classmethod
     def create_table(cls):
         CURSOR.execute('''
             CREATE TABLE IF NOT EXISTS games(
-                id INTEGET PRIMARY KEY,
-                player_id,
-                result INTEGER,
-                FORIEGN KEY (player_id) REFERENCES players(id)
+                id INTEGER PRIMARY KEY,
+                word TEXT  
             );        
         ''')
         CONN.commit()
-
-#drop the table 
+        
     @classmethod
     def drop_table(cls):
         CURSOR.execute("""
             DROP TABLE IF EXISTS games;
             """)
 
-
+    
+        
 import random
+# from player import Player
 from classes.result import Result
 from .__init__ import CONN,CURSOR   
 import time

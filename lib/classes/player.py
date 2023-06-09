@@ -1,4 +1,5 @@
-from __init__ import CONN, CURSOR
+from classes.__init__ import CONN, CURSOR
+
 class Player:
 
     def __init__(self, name, username, password, id=None):
@@ -6,10 +7,10 @@ class Player:
         self.username = username
         self.password = int(password)
         self.id = id
+        
 
 
-####!instance properties/attributes
-#name property
+#instance properties/attributes
     @property
     def name(self):
         return self._name
@@ -20,7 +21,6 @@ class Player:
         else:
             raise AttributeError('Your name must be a String of 20 characters or less')
 
-#username property
     @property
     def username(self):
         return self._username
@@ -30,20 +30,20 @@ class Player:
             self._username = username
         else:
             raise AttributeError('Please Enter A Valid Name')
-
-#password property
+        
     @property
     def password(self):
         return self._password
+    
     @password.setter
     def password(self,pin):
         if isinstance(pin,int):
             self._password = pin
         else:
             raise AttributeError('Please enter a valid password')
+#instance methods
 
-####!instance methods
-    #save player to db
+    #save()
     def save(self):
         CURSOR.execute(
             """
@@ -55,7 +55,7 @@ class Player:
         CONN.commit()
         self.id = CURSOR.lastrowid
 
-#!class methods
+#class methods
 
     #validate username
     @classmethod
@@ -83,15 +83,14 @@ class Player:
         )
         CONN.commit()
 
-#method to make a new class instance
     @classmethod
     def create(cls, name,username,password):
         new_player = Player(name,username,password)
         new_player.save()
         return new_player
 
-#drop_table
-    @classmethod 
+    
+    @classmethod #drop_table
     def drop_table(cls):
         CURSOR.execute("""
             DROP TABLE IF EXISTS players;
@@ -99,8 +98,7 @@ class Player:
         )
         CONN.commit()
 
-#find_by_id
-    @classmethod 
+    @classmethod #find_by_id
     def find_by_id(cls, id):
         if isinstance(id, int) and id > 0:
             CURSOR.execute("""
