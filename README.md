@@ -5,6 +5,19 @@
 Welcome to our Hang-man game. A python CLI application that allows a player to play hang-man at several levels of difficulty. The application allows a user to create a "profile" which saves the results from games the player has played. When starting a new game a user is able to select a difficulty for the game: "**Easy**","**Medium**" and "**Hard**". 
 After selecting a difficulty a word is then chosen from a list and the game is begun. Once the game is over a player is returned to the start menu where they can either login again to play a new game, make a new profile or choose to leave the game.
 # Installation and usage:
+
+## Menu
+![Alt text](lib/images/phase3_1.PNG)
+
+## Create account
+![Alt text](lib/images/phase3_2.gif)
+
+## Login
+![Alt text](lib/images/phase3_3.gif)
+
+## Play a game
+![Alt text](lib/images/phase3_4.gif)
+
 ## Installation
 To install and use our game:
 1. Fork and clone to your local environment. 
@@ -34,6 +47,15 @@ There are a wide variety of useful and important features, however the main nota
 
 --------------------------
 ## [Licensing](/LICENSE)
+MIT License
+
+Copyright (c) [2023] [Nolan Nash, Kevin Lumauig]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -------------
 ## Other Misc.
 ----------

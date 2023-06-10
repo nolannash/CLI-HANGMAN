@@ -70,7 +70,7 @@ def logged_in_menu(player_inst):
         show_me_scores(player_inst.id)
         time.sleep(10)
     elif choice == '2':
-        new_game_menu(player_inst.id)
+        new_game_menu(player_inst)
     elif choice == '3':
         quit_game()
     else:
