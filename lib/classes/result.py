@@ -7,32 +7,6 @@ class Result:
         self.score = score
         self.id = None
 
-    # #player getter
-    # @property
-    # def player(self):
-    #     return self._player
-    
-    # #player setter
-    # @player.setter
-    # def player(self, player):
-    #     if isinstance(player, Player):
-    #         self._player = player
-    #     else:
-    #         raise TypeError("Must be of type Player")
-
-    # #game getter
-    # @property
-    # def game(self):
-    #     return self._game
-
-    # #game setter
-    # @game.setter
-    # def game(self, game):
-    #     if isinstance(game, Game):
-    #         self._game = game
-    #     else:
-    #         raise TypeError("Must be of type Game")
-
     #score getter
     @property
     def score(self):
@@ -75,7 +49,7 @@ class Result:
         # new_result.score = score
         new_result.save()
         return new_result
-   
+
     #create_table
     @classmethod
     def create_table(cls):

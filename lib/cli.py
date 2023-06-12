@@ -1,19 +1,6 @@
 from helpers import *
-
-#nolans to-do thoughts:
-    #cli
-        # --> README
-    #helpers #
-        # --> add "help" methods --click/argparse(?)
-    #player #
-        # --> has lists of results
-    #results 
-        #--> connected properly
-    #game 
-        # --> actually works + score calculator
-        # --> might be fun to add method to allow people who have certain amt of points to add words to the lists or something *win bonus*
-        #--> show all available letters --> guessed letters in color, correct in green and incorrect in red
-
+##!! side note --> I am not sure where ".headers" came from and dont want to delete
+##!! if it would cause some sort of issue. -Nolan
 def main():
     # make_tables()
     while True:

@@ -7,13 +7,13 @@ class Player:
         self.username = username
         self.password = int(password)
         self.id = id
-        
-
 
 #instance properties/attributes
+
     @property
     def name(self):
         return self._name
+
     @name.setter
     def name(self,name):
         if isinstance(name,str) and 0<len(name)<=20:
@@ -24,13 +24,14 @@ class Player:
     @property
     def username(self):
         return self._username
+
     @username.setter
     def username(self,username):
         if isinstance(username,str) and 0< len(username)<=20:
             self._username = username
         else:
             raise AttributeError('Please Enter A Valid Name')
-        
+
     @property
     def password(self):
         return self._password
@@ -83,13 +84,12 @@ class Player:
         )
         CONN.commit()
 
-    @classmethod
+    @classmethod #create new class instance
     def create(cls, name,username,password):
         new_player = Player(name,username,password)
         new_player.save()
         return new_player
 
-    
     @classmethod #drop_table
     def drop_table(cls):
         CURSOR.execute("""

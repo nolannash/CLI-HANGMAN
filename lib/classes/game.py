@@ -1,5 +1,3 @@
-
-
 EASY_WORDS = ['Hat','Bed','Cup','Fish','Jump','Milk'
 ,'Park','Duck','Sing','Beach','Frog','Baby','Cake'
 ,'Moon','Smile','Bear','Boat',"Train","Apple","Dance"
@@ -37,12 +35,11 @@ HARD_WORDS =['Extraterrestrial'
 class Game:
 
     VALID_LETTERS = 'abcdefghijklmnopqrstuvwxyz'
-    
+
     def __init__(self, difficulty):
         self.difficulty = difficulty
         self.letters_entered = set()
         self.id = None
-        self.player_id = None
         self.set_word(self)
         self.turns = 10
         self.score = 0
@@ -173,7 +170,7 @@ class Game:
             print("You will be returned to the main menu screen shortly")
             time.sleep(5)
             return self.score
-           
+
 
         else:
             print("\nGame over! The word was:", self.word)

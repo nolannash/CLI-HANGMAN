@@ -2,17 +2,10 @@ import sys
 import os
 import time
 #text colors and helper functions
-        #red
 def prRed(skk):   # sourcery skip: use-fstring-for-formatting
     print("\033[91m{}\033[00m".format(skk))
-
-
-    #green
 def prGreen(skk): # sourcery skip: use-fstring-for-formatting
     print("\033[92m{}\033[00m".format(skk))
-
-
-        #yellow
 def prYellow(skk):   # sourcery skip: use-fstring-for-formatting
     print("\033[93m{}\033[00m".format(skk))
 
@@ -20,19 +13,17 @@ def prYellow(skk):   # sourcery skip: use-fstring-for-formatting
         #pink
 def prPink(skk):   # sourcery skip: use-fstring-for-formatting
     print('\033[95m{}\033[00m'.format(skk))
-
 def prCyan(skk): # sourcery skip: use-fstring-for-formatting
     print("\033[96m{}\033[00m".format(skk))
-
 def prLightPurple(skk): 
     print("\033[94m{}\033[00m".format(skk))
 
-
+#! Menu functions and other helpers
 def clear_terminal():
     os.system('clear')
 
 def welcome_message():
-    prPink('Hello and Welcome to: Python Hangman!')
+    prPink('Hello and Welcome to: Dev Dot Exe(cute)')
 
 def start_menu():
     clear_terminal()
@@ -50,7 +41,6 @@ def start_menu():
 def login_menu():
 
     new_player = None
-
     while not new_player:
         username_input = input('Please Enter Your Username: ')
         password_input = input('Please enter your password: ') 
@@ -78,7 +68,6 @@ def logged_in_menu(player_inst):
     else:
         prRed('Please enter valid option')
 
-#if you havent played before
 def new_player_menu():
     clear_terminal()
 
@@ -95,8 +84,6 @@ def new_player_menu():
     new_player = Player.create(name,userName,int(password))
     new_game_menu(new_player)
 
-
-        
 def help_menu():
     clear_terminal()
     while True:
@@ -119,7 +106,6 @@ def help_menu():
             about_game()
         elif help == "3":
             break
-
 
 def about_game():
     prGreen('Select a topic to learn more!')
@@ -162,17 +148,6 @@ def quit_game():
     clear_terminal()
     sys.exit()
 
-#saves player from either login -> get_by_id
-#or the Player.create from new_player_menu
-# def new_game_menu(new_player):
-#     clear_terminal()
-#     prRed('\nWelcome it is time to begin playing!')
-#     difficulty = input('First please select a difficulty: \n>>Easy \n>>Medium \n>>Hard\n')
-#     new_game = Game.create(difficulty.title())
-#     Result.create(0, new_player.id, new_game.id)
-#     clear_terminal()
-#     prLightPurple('Let The Game Begin!')
-#     new_game.play()
 def new_game_menu(player_instance):
 
     clear_terminal()
@@ -184,20 +159,6 @@ def new_game_menu(player_instance):
     prLightPurple('Let The Game Begin!')
     new_game.play()
 
-# def show_me_scores(player_inst_id):
-#     CURSOR.execute(
-#     """"
-#     SELECT games.word, results.score 
-#     FROM games
-#     INNER JOIN results 
-#     ON games.id = results.game_id
-#     INNER JOIN players 
-#     ON players.id = results.player_id
-#     """, (player_inst_id, )
-#     )
-#     # row = CURSOR.fetchall()
-#     # if row:
-#     #     player_name
 def show_me_scores(player_inst_id):
     CURSOR.execute(
     """
@@ -212,7 +173,7 @@ def show_me_scores(player_inst_id):
     for row in rows:
         word, score = row
         print(f"Word: {word} | Score: {score}")   
-    
+
 def make_tables():
     Player.drop_table()
     Game.drop_table()

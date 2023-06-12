@@ -1,4 +1,4 @@
-# PYTHON HANGMAN
+# Dev Dot Exe(cute)
 <sub>A Game By: @nolannash (Nolan Nash) and @klums24 (Kevin Luauig) </sub>
 
 # Project Overview:
